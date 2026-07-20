@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume - BORMEY.DEV</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="transitions.css">
+  <style>
+    /* ============================================================
+       RESUME PAGE — FUTURISTIC INTERACTIVE WORKSPACE
+       ============================================================ */
+    :root {
+      --accent-color: #f59e0b !important;
+      --accent-glow: rgba(245, 158, 11, 0.18) !important;
+    }
+
+    body {
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: #08090c;
+    }
+
+    /* Glowing warm background blob */
+    .bg-blobs::after {
+      content: '';
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 50vw;
+      height: 50vw;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.15) 0%, transparent 70%);
+      filter: blur(90px);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .page-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 120px 6% 140px;
+      z-index: 1;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .resume-hero {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .resume-hero span {
+      font-size: 0.8rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent-color);
+      font-weight: 700;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .resume-hero h1 {
+      font-family: var(--font-heading);
+      font-size: 3.2rem;
+      font-weight: 900;
+      color: #fff;
+    }
+
+    /* ── Main Workspace Panel ── */
+    .workspace-container {
+      display: grid;
+      grid-template-columns: 220px 1.2fr 1fr;
+      width: 100%;
+      background: rgba(10, 11, 16, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 50px 120px rgba(0,0,0,0.6);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+    }
+
+    /* 1. Sidebar Tree */
+    .ws-sidebar {
+      background: rgba(6, 7, 10, 0.95);
+      border-right: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 28px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .sidebar-header {
+      font-size: 0.65rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    .tree-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .tree-node {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: var(--transition-fast);
+      user-select: none;
+    }
+
+    .tree-node:hover {
+      background: rgba(255, 255, 255, 0.03);
+      color: #fff;
+    }
+
+    .tree-node.active {
+      background: rgba(245, 158, 11, 0.1);
+      color: var(--accent-color);
+      border-left: 2px solid var(--accent-color);
+    }
+
+    .tree-icon {
+      font-size: 0.95rem;
+    }
+
+    /* 2. Visual Content Center Column */
+    .ws-center-column {
+      border-right: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ws-toolbar {
+      background: rgba(14, 15, 22, 0.9);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .ws-tab {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-bottom: none;
+      padding: 8px 18px;
+      border-radius: 8px 8px 0 0;
+      font-size: 0.78rem;
+      color: #fff;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ws-tab::before {
+      content: '📄';
+      font-size: 0.85rem;
+    }
+
+    .ws-action-btn {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      color: var(--text-secondary);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: var(--transition-fast);
+    }
+
+    .ws-action-btn:hover {
+      background: var(--accent-color);
+      color: #fff;
+      border-color: var(--accent-color);
+    }
+
+    .ws-action-btn svg {
+      width: 13px; height: 13px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.2;
+    }
+
+    .ws-content {
+      padding: 36px;
+      overflow-y: auto;
+      max-height: 520px;
+    }
+
+    /* Content components */
+    .sec-block {
+      display: none;
+    }
+
+    .sec-block.active {
+      display: block;
+      animation: fadeInBlock 0.35s ease;
+    }
+
+    @keyframes fadeInBlock {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .sec-header {
+      font-family: var(--font-heading);
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sec-header svg {
+      width: 16px; height: 16px;
+      stroke: var(--accent-color);
+      stroke-width: 2.5;
+    }
+
+    .card-item {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+      transition: var(--transition-fast);
+    }
+
+    .card-item:hover {
+      background: rgba(245, 158, 11, 0.03);
+      border-color: rgba(245, 158, 11, 0.15);
+    }
+
+    .card-item-title {
+      font-family: var(--font-heading);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .card-item-sub {
+      font-size: 0.82rem;
+      color: var(--accent-color);
+      font-weight: 700;
+      margin-bottom: 10px;
+      letter-spacing: 0.3px;
+    }
+
+    .card-item-desc {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* 3. CV Request Right Panel */
+    .ws-right-column {
+      background: rgba(14, 16, 24, 0.65);
+      padding: 32px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 24px;
+    }
+
+    .ws-cv-icon-wrap {
+      width: 60px; height: 60px;
+      border-radius: 50%;
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-color);
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+    }
+
+    .ws-cv-title {
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .ws-cv-notice-en {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .ws-cv-notice-kh {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.7;
+      font-weight: 500;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding-top: 16px;
+      width: 100%;
+    }
+
+    .ws-cv-btn-link {
+      background: var(--accent-color);
+      color: #fff;
+      text-decoration: none;
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 0.82rem;
+      padding: 10px 22px;
+      border-radius: 10px;
+      box-shadow: 0 4px 18px rgba(245, 158, 11, 0.25);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: auto;
+      max-width: max-content;
+      transition: var(--transition-fast);
+    }
+
+
+    .ws-cv-btn-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(245, 158, 11, 0.4);
+    }
+
+
+    .code-line {
+      display: block;
+    }
+
+    .t-punct { color: #8892b0; }
+    .t-key { color: #82aaff; }
+    .t-val { color: #ecc48d; }
+    .t-comment { color: rgba(255, 255, 255, 0.25); font-style: italic; }
+
+    .dock-item-resume {
+      opacity: 1 !important;
+      filter: drop-shadow(0 0 10px #f59e0b) brightness(1.2) !important;
+      border-color: rgba(245, 158, 11, 0.4) !important;
+    }
+
+    @media (max-width: 950px) {
+      .workspace-container {
+        grid-template-columns: 1fr;
+      }
+      .ws-sidebar {
+        display: none;
+      }
+      .ws-right-column {
+        border-top: 1px solid rgba(255,255,255,0.05);
+      }
+    }
+  </style>
+</head>
+<body data-theme="dark">
+  <!-- Transition overlay -->
+  <div id="pt-bar"></div>
+  <div id="pt-curtain">
+    <div id="pt-panel"></div>
+    <div id="pt-logo"><span class="pt-dot"></span>BORMEY<span class="pt-accent">.DEV</span></div>
+  </div>
+
+  <div id="cursor-glow"></div>
+  <div class="bg-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- Navbar -->
+  <nav class="navbar" id="top-nav">
+    <div class="nav-brand">BORMEY.DEV</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="skills.html">Skills</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="resume.html" class="active">Resume</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li class="nav-divider"></li>
+      <li><a href="./cybertools/index.html">CyberTools</a></li>
+    </ul>
+    <div class="nav-divider"></div>
+    <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle Theme">
+      <svg class="sun-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      <svg class="moon-icon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+    </button>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="page-main">
+    
+    <div class="resume-hero">
+      <span>Qualifications</span>
+      <h1>RESUME</h1>
+    </div>
+
+    <!-- FUTURISTIC WORKSPACE HUB -->
+    <div class="workspace-container">
+      
+      <!-- 1. Left Sidebar Tree Nav -->
+      <div class="ws-sidebar">
+        <div class="sidebar-header">Explorer</div>
+        <div class="tree-list">
+          <div class="tree-node active" data-target="education">
+            <span class="tree-icon">🎓</span> education.md
+          </div>
+          <div class="tree-node" data-target="experience">
+            <span class="tree-icon">💼</span> experience.md
+          </div>
+          <div class="tree-node" data-target="journey">
+            <span class="tree-icon">🚀</span> learning_journey.md
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Middle Visual Content Editor -->
+      <div class="ws-center-column">
+        <div class="ws-toolbar">
+          <div class="ws-tab">
+            <span id="ws-tab-name">education.md</span>
+          </div>
+          <div class="ws-actions">
+            <button class="ws-action-btn" id="ws-print-btn">
+              <svg viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+              Print File
+            </button>
+          </div>
+        </div>
+
+        <div class="ws-content">
+          
+          <!-- Section 1: Education -->
+          <div class="sec-block active" id="sec-education">
+            <div class="sec-header">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/></svg>
+              <span>Education details</span>
+            </div>
+            
+            <div class="card-item">
+              <h3 class="card-item-title">Management Information Systems (MIS)</h3>
+              <div class="card-item-sub">Cambodia University of Technology</div>
+              <p class="card-item-desc">
+                Focusing on business analytics, structured databases, software architectures, frontend systems, and API automation tools.
+              </p>
+            </div>
+          </div>
+
+          <!-- Section 2: Experience -->
+          <div class="sec-block" id="sec-experience">
+            <div class="sec-header">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+              <span>Work Experience</span>
+            </div>
+
+            <div class="card-item">
+              <h3 class="card-item-title">Freelance Developer & Automation Builder</h3>
+              <div class="card-item-sub">2024 - Present</div>
+              <p class="card-item-desc">
+                Developed Telegram bot interfaces, structured automations, and custom interactive frontend layouts using standard scripts.
+              </p>
+            </div>
+          </div>
+
+          <!-- Section 3: Learning Journey -->
+          <div class="sec-block" id="sec-journey">
+            <div class="sec-header">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+              <span>Learning Journey</span>
+            </div>
+
+            <div class="card-item">
+              <h3 class="card-item-title">AI Tools & Automation (2026)</h3>
+              <p class="card-item-desc">Building automated systems with prompt engineering and APIs.</p>
+            </div>
+
+            <div class="card-item">
+              <h3 class="card-item-title">Telegram Bot Development (2025)</h3>
+              <p class="card-item-desc">Explored APIs, Python automation, and web integrations for chatbots.</p>
+            </div>
+
+            <div class="card-item">
+              <h3 class="card-item-title">Created Multiple Website Projects (2025)</h3>
+              <p class="card-item-desc">Constructed portfolio, e-commerce prototypes, and digital stores.</p>
+            </div>
+
+            <div class="card-item">
+              <h3 class="card-item-title">Started Learning Web Dev (2024)</h3>
+              <p class="card-item-desc">Began studying HTML, CSS, JavaScript, and responsive layouts.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 3. CV Request & Download Panel -->
+      <div class="ws-right-column">
+        <div class="ws-cv-icon-wrap">📄</div>
+        <div class="ws-cv-title">CV / Resume</div>
+        
+        <p class="ws-cv-notice-en">
+          For CV/Resume, you can contact my Telegram, or CV/Resume is available upon request. Contact Penhpich Bormey.
+        </p>
+
+        <p class="ws-cv-notice-kh">
+          ប្រវត្តិរូបសង្ខេប (CV/Resume) អាចស្នើសុំបានដោយផ្ទាល់។ សូមទាក់ទង Penhpich Bormey។
+        </p>
+
+        <a href="https://t.me/ShennCelest" target="_blank" class="ws-cv-btn-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          DOWNLOAD CV
+        </a>
+      </div>
+
+
+    </div>
+
+  </main>
+
+  <!-- Dock Menu -->
+  <div class="dock-wrapper">
+    <div class="dock">
+      <a href="index.html" class="dock-item" data-tooltip="Home" aria-label="Home">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </a>
+      <a href="about.html" class="dock-item" data-tooltip="About" aria-label="About">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </a>
+      <a href="skills.html" class="dock-item" data-tooltip="Skills" aria-label="Skills">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      </a>
+      <a href="projects.html" class="dock-item" data-tooltip="Projects" aria-label="Projects">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+      </a>
+      <a href="resume.html" class="dock-item dock-item-resume active" data-tooltip="Resume" aria-label="Resume">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      </a>
+      <a href="./cybertools/index.html" class="dock-item" data-tooltip="CyberTools" aria-label="CyberTools">
+        <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/><path d="m10 7 2 2-2 2"/></svg>
+      </a>
+      <a href="contact.html" class="dock-item" data-tooltip="Contact" aria-label="Contact">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+  <script src="script.js"></script>
+  <script src="transitions.js"></script>
+  
+  <script>
+    // ── Elements ──
+    const nodes = document.querySelectorAll('.tree-node');
+    const blocks = document.querySelectorAll('.sec-block');
+    const tabName = document.getElementById('ws-tab-name');
+
+    // ── Tree Switcher logic ──
+    nodes.forEach(node => {
+      node.addEventListener('click', () => {
+        nodes.forEach(n => n.classList.remove('active'));
+        node.classList.add('active');
+
+        const target = node.getAttribute('data-target');
+        tabName.textContent = target + '.md';
+
+        // Swap visual blocks
+        blocks.forEach(block => {
+          if (block.id === 'sec-' + target) {
+            block.classList.add('active');
+          } else {
+            block.classList.remove('active');
+          }
+        });
+      });
+    });
+
+    // ── Print ──
+    document.getElementById('ws-print-btn').addEventListener('click', () => {
+      window.print();
+    });
+  </script>
+</body>
+</html>

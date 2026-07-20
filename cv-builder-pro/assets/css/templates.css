@@ -1,0 +1,100 @@
+/* 
+  CV Builder Pro - Template Library
+  This file defines 10 distinct resume layouts.
+*/
+
+/* 1. Minimal ATS (Default) */
+.tpl-minimal-ats {
+  font-family: 'Inter', sans-serif;
+  color: #1a1a1a;
+}
+.tpl-minimal-ats h1 { font-size: 2.5rem; text-transform: uppercase; letter-spacing: 2px; }
+.tpl-minimal-ats .preview-header { border-bottom: 2px solid #000; }
+.tpl-minimal-ats h3 { border-bottom: 1px solid #ccc; text-transform: uppercase; font-size: 0.9rem; margin-top: 1.5rem; }
+
+/* 2. Modern Professional */
+.tpl-modern-pro {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 2rem;
+  padding: 0 !important;
+}
+.tpl-modern-pro .preview-header { grid-column: 1 / -1; padding: 3rem; background: #1e293b; color: white; border: none; }
+.tpl-modern-pro .preview-header h1 { color: white; }
+.tpl-modern-pro .preview-header p { color: #94a3b8 !important; }
+.tpl-modern-pro .preview-left { padding: 2rem; background: #f8fafc; }
+.tpl-modern-pro .preview-right { padding: 2rem; }
+.tpl-modern-pro h3 { color: #3b82f6; border-bottom: 2px solid #3b82f6; }
+
+/* 3. Creative Designer */
+.tpl-creative {
+  font-family: 'Poppins', sans-serif;
+  background: #fff;
+}
+.tpl-creative .preview-header { 
+  background: linear-gradient(135deg, #6366f1, #a855f7);
+  padding: 4rem 2rem;
+  color: white;
+  text-align: center;
+  border-radius: 0 0 50% 50% / 0 0 20px 20px;
+}
+.tpl-creative .preview-header h1, .tpl-creative .preview-header p { color: white; }
+.tpl-creative h3 { background: #f3e8ff; color: #7e22ce; padding: 0.5rem 1rem; border-radius: 4px; border: none; }
+
+/* 4. Executive Suite */
+.tpl-executive {
+  font-family: 'Playfair Display', serif;
+}
+.tpl-executive .preview-header { text-align: center; border-bottom: 1px double #000; padding-bottom: 2rem; }
+.tpl-executive h3 { text-align: center; font-style: italic; border: none; position: relative; }
+.tpl-executive h3::after { content: ''; position: absolute; bottom: -5px; left: 45%; width: 10%; border-bottom: 1px solid #000; }
+
+/* 5. Tech Specialist */
+.tpl-tech {
+  font-family: 'Fira Code', monospace;
+  background: #fafafa;
+}
+.tpl-tech .preview-header h1::before { content: '> '; color: #10b981; }
+.tpl-tech h3 { background: #111827; color: #10b981; padding: 0.25rem 0.5rem; display: inline-block; }
+
+/* 6. Academic */
+.tpl-academic {
+  font-family: 'Crimson Text', serif;
+  line-height: 1.4;
+}
+.tpl-academic .preview-header { text-align: center; }
+.tpl-academic h3 { text-transform: uppercase; text-align: center; border-top: 1px solid #000; border-bottom: 1px solid #000; padding: 0.25rem 0; }
+
+/* 7. Startup Nomad */
+.tpl-startup {
+  font-family: 'Outfit', sans-serif;
+}
+.tpl-startup .preview-header { display: flex; align-items: center; justify-content: space-between; }
+.tpl-startup .preview-header h1 { font-size: 3rem; font-weight: 900; }
+.tpl-startup .preview-header div { text-align: right; }
+.tpl-startup h3 { color: #f43f5e; font-weight: 800; border: none; }
+
+/* 8. Glassmorphism Preview */
+.tpl-glass {
+  background: #0f172a;
+  color: white;
+}
+.tpl-glass .preview-header { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); padding: 2rem; border-radius: 12px; }
+.tpl-glass h1, .tpl-glass h3 { color: white; }
+.tpl-glass h3 { border-bottom: 1px solid rgba(255,255,255,0.2); }
+.tpl-glass .preview-item-sub { color: #94a3b8; }
+
+/* 9. Student */
+.tpl-student {
+  border: 10px solid #e2e8f0;
+}
+.tpl-student .preview-header { padding: 1rem; background: #f1f5f9; }
+.tpl-student h3 { color: #64748b; font-size: 0.8rem; }
+
+/* 10. High-End Corporate */
+.tpl-corporate {
+  background: #fff;
+}
+.tpl-corporate .preview-header { border-left: 8px solid #1e3a8a; padding-left: 2rem; }
+.tpl-corporate h1 { color: #1e3a8a; }
+.tpl-corporate h3 { color: #1e3a8a; background: #eff6ff; padding: 0.5rem; border: none; }

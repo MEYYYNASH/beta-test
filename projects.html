@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects - BORMEY.DEV</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="transitions.css">
+  <style>
+    /* ============================================================
+       PROJECTS PAGE — CYAN MASONRY & FILTER SHOWCASE
+       ============================================================ */
+    :root {
+      --accent-color: #06b6d4 !important;
+      --accent-glow: rgba(6, 182, 212, 0.15) !important;
+    }
+
+    body {
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Cyan blob overlay */
+    .bg-blobs::after {
+      content: '';
+      position: fixed;
+      top: 20%;
+      right: -10%;
+      width: 45vw;
+      height: 45vw;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(6, 182, 212, 0.2) 0%, transparent 70%);
+      filter: blur(80px);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .page-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 120px 6% 140px;
+      z-index: 1;
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .proj-hero {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .proj-hero span {
+      font-size: 0.8rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent-color);
+      font-weight: 700;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .proj-hero h1 {
+      font-family: var(--font-heading);
+      font-size: 3.5rem;
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      color: #fff;
+    }
+
+    /* Filter pill row */
+    .proj-filter-bar {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 40px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 6px;
+      border-radius: 99px;
+      backdrop-filter: blur(10px);
+      z-index: 10;
+    }
+
+    .proj-filter-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 8px 20px;
+      border-radius: 99px;
+      cursor: pointer;
+      transition: var(--transition-fast);
+    }
+
+    .proj-filter-btn.active {
+      background: var(--accent-color);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+    }
+
+    /* Grid layout */
+    .proj-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      width: 100%;
+    }
+
+    .proj-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow);
+      backdrop-filter: var(--glass-backdrop-blur);
+      -webkit-backdrop-filter: var(--glass-backdrop-blur);
+      border-radius: 28px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      position: relative;
+      transition: var(--transition-spring);
+    }
+
+    .proj-card.hidden {
+      display: none !important;
+    }
+
+    /* Colored header banner */
+    .proj-card-banner {
+      height: 110px;
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.15) 0%, rgba(99, 102, 241, 0.1) 100%);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .proj-card-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      background: rgba(8, 9, 12, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-color);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+
+    .proj-card-icon svg {
+      width: 22px;
+      height: 22px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+    }
+
+    .proj-card-content {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .proj-card-content h3 {
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .proj-featured-badge {
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      background: var(--accent-color);
+      color: #fff;
+      padding: 4px 10px;
+      border-radius: 99px;
+      box-shadow: 0 0 10px rgba(6, 182, 212, 0.4);
+    }
+
+    .proj-card-content p {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 20px;
+      flex: 1;
+    }
+
+    .proj-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 24px;
+    }
+
+    .proj-tag {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .proj-links {
+      display: flex;
+      gap: 12px;
+    }
+
+    .proj-btn {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 700;
+      font-family: var(--font-heading);
+      transition: var(--transition-fast);
+      cursor: pointer;
+    }
+
+    .proj-btn.primary {
+      background: var(--accent-color);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(6, 182, 212, 0.25);
+    }
+
+    .proj-btn.primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(6, 182, 212, 0.4);
+    }
+
+    .proj-btn.secondary {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: var(--text-secondary);
+    }
+
+    .proj-btn.secondary:hover {
+      background: rgba(255, 255, 255, 0.06);
+      color: #fff;
+    }
+
+    .dock-item-projects {
+      opacity: 1 !important;
+      filter: drop-shadow(0 0 10px #06b6d4) brightness(1.2) !important;
+      border-color: rgba(6, 182, 212, 0.4) !important;
+    }
+
+    @media (max-width: 800px) {
+      .proj-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body data-theme="dark">
+  <!-- Transition overlay -->
+  <div id="pt-bar"></div>
+  <div id="pt-curtain">
+    <div id="pt-panel"></div>
+    <div id="pt-logo"><span class="pt-dot"></span>BORMEY<span class="pt-accent">.DEV</span></div>
+  </div>
+
+  <div id="cursor-glow"></div>
+  <div class="bg-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- Navbar -->
+  <nav class="navbar" id="top-nav">
+    <div class="nav-brand">BORMEY.DEV</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="skills.html">Skills</a></li>
+      <li><a href="projects.html" class="active">Projects</a></li>
+      <li><a href="resume.html">Resume</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li class="nav-divider"></li>
+      <li><a href="./cybertools/index.html">CyberTools</a></li>
+    </ul>
+    <div class="nav-divider"></div>
+    <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle Theme">
+      <svg class="sun-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      <svg class="moon-icon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+    </button>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="page-main">
+    
+    <div class="proj-hero">
+      <span>Portfolio</span>
+      <h1>PROJECTS</h1>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="proj-filter-bar">
+      <button class="proj-filter-btn active" data-filter="all">All</button>
+      <button class="proj-filter-btn" data-filter="frontend">Frontend</button>
+      <button class="proj-filter-btn" data-filter="bot">Bot & AI</button>
+      <button class="proj-filter-btn" data-filter="productivity">Productivity</button>
+    </div>
+
+    <!-- Grid -->
+    <div class="proj-grid">
+      
+      <!-- Project 1: Attendance System (Active) -->
+      <div class="proj-card" data-category="frontend">
+        <div class="proj-card-banner" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(99, 102, 241, 0.1) 100%);">
+          <div class="proj-card-icon" style="color: #10b981;">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+        </div>
+        <div class="proj-card-content">
+          <h3>Attendance System <span class="proj-featured-badge" style="background:#10b981; box-shadow:0 0 10px rgba(16,185,129,0.4);">School Project</span></h3>
+          <p>A smart, digital classroom attendance tracker built to streamline session logs, manage course lists, and export records.</p>
+          <div class="proj-tags">
+            <span class="proj-tag">HTML</span>
+            <span class="proj-tag">CSS</span>
+            <span class="proj-tag">JavaScript</span>
+            <span class="proj-tag">School Project</span>
+          </div>
+          <div class="proj-links">
+            <a href="https://attendance-snowy-delta.vercel.app/" target="_blank" class="proj-btn primary" style="background:#10b981; box-shadow: 0 4px 14px rgba(16,185,129,0.25);">Launch App</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 2: Tools Hub (Active) -->
+      <div class="proj-card" data-category="productivity">
+        <div class="proj-card-banner" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(99, 102, 241, 0.1) 100%);">
+          <div class="proj-card-icon" style="color: #f59e0b;">
+            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+        </div>
+        <div class="proj-card-content">
+          <h3>All-in-One Tools Hub <span class="proj-featured-badge">Featured</span></h3>
+          <p>A comprehensive web tools collection comprising developer widgets, math solvers, and productivity modules.</p>
+          <div class="proj-tags">
+            <span class="proj-tag">HTML</span>
+            <span class="proj-tag">CSS</span>
+            <span class="proj-tag">JavaScript</span>
+          </div>
+          <div class="proj-links">
+            <a href="./cybertools/index.html" class="proj-btn primary">View Tool</a>
+            <a href="https://github.com" target="_blank" class="proj-btn secondary">GitHub</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 3: CV Builder (Active) -->
+      <div class="proj-card" data-category="frontend">
+        <div class="proj-card-banner" style="background: linear-gradient(135deg, rgba(236, 72, 153, 0.15) 0%, rgba(99, 102, 241, 0.1) 100%);">
+          <div class="proj-card-icon" style="color: #ec4899;">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+        </div>
+        <div class="proj-card-content">
+          <h3>CV Builder Platform</h3>
+          <p>Professional resume builder with downloadable templates, custom fields, and real-time frosted glass previews.</p>
+          <div class="proj-tags">
+            <span class="proj-tag">JavaScript</span>
+            <span class="proj-tag">HTML2PDF</span>
+            <span class="proj-tag">CSS Grid</span>
+          </div>
+          <div class="proj-links">
+            <a href="./cv-builder-pro/index.html" class="proj-btn primary">View Tool</a>
+            <a href="https://github.com" target="_blank" class="proj-btn secondary">GitHub</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 4: Telegram Assistant (Under Developer) -->
+      <div class="proj-card" data-category="bot">
+        <div class="proj-card-banner">
+          <div class="proj-card-icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+        </div>
+        <div class="proj-card-content">
+          <h3>AI Telegram Assistant</h3>
+          <p>An intelligent Telegram bot capable of answering questions, generating content, and assisting users in real-time.</p>
+          <div class="proj-tags">
+            <span class="proj-tag">Python</span>
+            <span class="proj-tag">Telegram API</span>
+            <span class="proj-tag">AI Integration</span>
+          </div>
+          <div class="proj-links">
+            <span class="proj-btn secondary" style="cursor: default;">Under Developer</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 5: Subscription Store (Under Developer) -->
+      <div class="proj-card" data-category="frontend">
+        <div class="proj-card-banner" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(99, 102, 241, 0.1) 100%);">
+          <div class="proj-card-icon" style="color: #10b981;">
+            <svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          </div>
+        </div>
+        <div class="proj-card-content">
+          <h3>Subscription Store</h3>
+          <p>A premium digital subscription marketplace website designed with advanced frosted glassmorphism themes.</p>
+          <div class="proj-tags">
+            <span class="proj-tag">HTML5</span>
+            <span class="proj-tag">CSS Variables</span>
+            <span class="proj-tag">Vanilla JS</span>
+          </div>
+          <div class="proj-links">
+            <span class="proj-btn secondary" style="cursor: default;">Under Developer</span>
+          </div>
+        </div>
+      </div>
+
+
+  </main>
+
+  <!-- Dock Menu -->
+  <div class="dock-wrapper">
+    <div class="dock">
+      <a href="index.html" class="dock-item" data-tooltip="Home" aria-label="Home">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </a>
+      <a href="about.html" class="dock-item" data-tooltip="About" aria-label="About">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </a>
+      <a href="skills.html" class="dock-item" data-tooltip="Skills" aria-label="Skills">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      </a>
+      <a href="projects.html" class="dock-item dock-item-projects active" data-tooltip="Projects" aria-label="Projects">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+      </a>
+      <a href="resume.html" class="dock-item" data-tooltip="Resume" aria-label="Resume">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      </a>
+      <a href="./cybertools/index.html" class="dock-item" data-tooltip="CyberTools" aria-label="CyberTools">
+        <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/><path d="m10 7 2 2-2 2"/></svg>
+      </a>
+      <a href="contact.html" class="dock-item" data-tooltip="Contact" aria-label="Contact">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+  <script src="script.js"></script>
+  <script src="transitions.js"></script>
+  <script>
+    // ── Filter functionality ──
+    const filterButtons = document.querySelectorAll('.proj-filter-btn');
+    const projectCards = document.querySelectorAll('.proj-card');
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Active button styles
+        filterButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const filterValue = btn.getAttribute('data-filter');
+
+        projectCards.forEach(card => {
+          const category = card.getAttribute('data-category');
+          if (filterValue === 'all' || category === filterValue) {
+            card.classList.remove('hidden');
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

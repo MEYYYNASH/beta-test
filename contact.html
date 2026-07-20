@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact - BORMEY.DEV</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="transitions.css">
+  <style>
+    /* ============================================================
+       CONTACT PAGE — RADAR HUB & FORM SPLIT SCREEN
+       ============================================================ */
+    :root {
+      --accent-color: #f43f5e !important;
+      --accent-glow: rgba(244, 63, 94, 0.15) !important;
+    }
+
+    body {
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Rose blob overlay */
+    .bg-blobs::after {
+      content: '';
+      position: fixed;
+      top: -10%;
+      left: 30%;
+      width: 40vw;
+      height: 40vw;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(244, 63, 94, 0.18) 0%, transparent 70%);
+      filter: blur(80px);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .page-main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 120px 6% 140px;
+      z-index: 1;
+    }
+
+    .contact-split-container {
+      display: grid;
+      grid-template-columns: 1.1fr 1.4fr;
+      width: 100%;
+      max-width: 1050px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow);
+      border-radius: 32px;
+      overflow: hidden;
+      backdrop-filter: var(--glass-backdrop-blur);
+      -webkit-backdrop-filter: var(--glass-backdrop-blur);
+    }
+
+    /* Left Panel: Signal Wave Radar */
+    .contact-radar-panel {
+      background: rgba(12, 13, 20, 0.5);
+      border-right: 1px solid var(--glass-border);
+      padding: 48px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 40px;
+      min-height: 480px;
+    }
+
+    .contact-radar-bg-text {
+      position: absolute;
+      top: 15%;
+      left: -5%;
+      font-size: 5rem;
+      font-weight: 900;
+      color: rgba(255, 255, 255, 0.02);
+      font-family: var(--font-heading);
+      letter-spacing: -2px;
+      pointer-events: none;
+      line-height: 1;
+    }
+
+    .contact-radar-header h2 {
+      font-family: var(--font-heading);
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .contact-radar-header p {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* Contact Links */
+    .radar-links-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      z-index: 3;
+    }
+
+
+    .radar-link-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      padding: 14px 18px;
+      border-radius: 16px;
+      transition: var(--transition-fast);
+    }
+
+    .radar-link-item:hover {
+      background: rgba(244, 63, 94, 0.05);
+      border-color: rgba(244, 63, 94, 0.25);
+      transform: translateX(4px);
+    }
+
+    .radar-link-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: rgba(244, 63, 94, 0.1);
+      border: 1px solid rgba(244, 63, 94, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-color);
+    }
+
+    .radar-link-icon svg {
+      width: 16px;
+      height: 16px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.2;
+    }
+
+    .radar-link-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .radar-link-lbl {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+
+    .radar-link-val {
+      font-size: 0.9rem;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    /* Right Panel: Clean Form */
+    .contact-form-panel {
+      padding: 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .form-group-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .form-field-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    .form-field-wrap label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-secondary);
+      font-weight: 700;
+    }
+
+    .form-field-wrap input,
+    .form-field-wrap textarea {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 12px 16px;
+      color: #fff;
+      font-family: var(--font-body);
+      outline: none;
+      font-size: 0.9rem;
+      transition: var(--transition-fast);
+      resize: none;
+    }
+
+    .form-field-wrap input:focus,
+    .form-field-wrap textarea:focus {
+      border-color: var(--accent-color);
+      background: rgba(244, 63, 94, 0.04);
+      box-shadow: 0 0 10px rgba(244, 63, 94, 0.15);
+    }
+
+    .form-submit-btn {
+      background: var(--accent-color);
+      color: #fff;
+      border: none;
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 14px 24px;
+      border-radius: 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 4px 18px rgba(244, 63, 94, 0.25);
+      transition: var(--transition-fast);
+    }
+
+    .form-submit-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px rgba(244, 63, 94, 0.4);
+    }
+
+    .form-submit-btn svg {
+      width: 14px;
+      height: 14px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.5;
+    }
+
+    .dock-item-contact {
+      opacity: 1 !important;
+      filter: drop-shadow(0 0 10px #f43f5e) brightness(1.2) !important;
+      border-color: rgba(244, 63, 94, 0.4) !important;
+    }
+
+    @media (max-width: 850px) {
+      .contact-split-container {
+        grid-template-columns: 1fr;
+      }
+      .contact-radar-panel {
+        border-right: none;
+        border-bottom: 1px solid var(--glass-border);
+        min-height: auto;
+        padding: 32px;
+      }
+      .contact-form-panel {
+        padding: 32px;
+      }
+    }
+  </style>
+</head>
+<body data-theme="dark">
+  <!-- Transition overlay -->
+  <div id="pt-bar"></div>
+  <div id="pt-curtain">
+    <div id="pt-panel"></div>
+    <div id="pt-logo"><span class="pt-dot"></span>BORMEY<span class="pt-accent">.DEV</span></div>
+  </div>
+
+  <div id="cursor-glow"></div>
+  <div class="bg-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- Navbar -->
+  <nav class="navbar" id="top-nav">
+    <div class="nav-brand">BORMEY.DEV</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="skills.html">Skills</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="resume.html">Resume</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+      <li class="nav-divider"></li>
+      <li><a href="./cybertools/index.html">CyberTools</a></li>
+    </ul>
+    <div class="nav-divider"></div>
+    <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle Theme">
+      <svg class="sun-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      <svg class="moon-icon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+    </button>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="page-main">
+    
+    <div class="contact-split-container">
+      
+      <!-- Left Radar Hub Panel -->
+      <div class="contact-radar-panel">
+        <div class="contact-radar-bg-text">GET IN<br>TOUCH</div>
+        
+        <div class="contact-radar-header">
+          <h2>Contact Node</h2>
+          <p>Send a secure message directly to my communication channel.</p>
+        </div>
+
+
+        <div class="radar-links-list">
+          
+          <a href="https://t.me/ShennCelest" target="_blank" class="radar-link-item">
+            <div class="radar-link-icon">
+              <svg viewBox="0 0 24 24"><path d="M21.5 2L2 11.5l6.8 1.7L18 5.5l-8.5 7.5v5.3l3-2.8 5.5 4.7z"/></svg>
+            </div>
+            <div class="radar-link-info">
+              <span class="radar-link-lbl">Telegram</span>
+              <span class="radar-link-val">t.me/ShennCelest</span>
+            </div>
+          </a>
+
+          <a href="https://m.me/JaxFrez" target="_blank" class="radar-link-item">
+            <div class="radar-link-icon">
+              <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            </div>
+            <div class="radar-link-info">
+              <span class="radar-link-lbl">Messenger</span>
+              <span class="radar-link-val">m.me/JaxFrez</span>
+            </div>
+          </a>
+
+          <div class="radar-link-item">
+            <div class="radar-link-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div class="radar-link-info">
+              <span class="radar-link-lbl">Node Location</span>
+              <span class="radar-link-val">Cambodia</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Right Contact Form Panel -->
+      <div class="contact-form-panel">
+        <form id="contact-form-node">
+          <div class="form-group-row">
+            <div class="form-field-wrap">
+              <label for="name">Name</label>
+              <input type="text" id="name" required placeholder="Your Name">
+            </div>
+            <div class="form-field-wrap">
+              <label for="email">Email</label>
+              <input type="email" id="email" required placeholder="your@email.com">
+            </div>
+          </div>
+          <div class="form-field-wrap">
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" required placeholder="Project Proposal">
+          </div>
+          <div class="form-field-wrap">
+            <label for="message">Message</label>
+            <textarea id="message" rows="5" required placeholder="Tell me about your project..."></textarea>
+          </div>
+          <button type="submit" class="form-submit-btn">
+            <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            Transmit Message
+          </button>
+        </form>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Dock Menu -->
+  <div class="dock-wrapper">
+    <div class="dock">
+      <a href="index.html" class="dock-item" data-tooltip="Home" aria-label="Home">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </a>
+      <a href="about.html" class="dock-item" data-tooltip="About" aria-label="About">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </a>
+      <a href="skills.html" class="dock-item" data-tooltip="Skills" aria-label="Skills">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      </a>
+      <a href="projects.html" class="dock-item" data-tooltip="Projects" aria-label="Projects">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+      </a>
+      <a href="resume.html" class="dock-item" data-tooltip="Resume" aria-label="Resume">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      </a>
+      <a href="./cybertools/index.html" class="dock-item" data-tooltip="CyberTools" aria-label="CyberTools">
+        <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/><path d="m10 7 2 2-2 2"/></svg>
+      </a>
+      <a href="contact.html" class="dock-item dock-item-contact active" data-tooltip="Contact" aria-label="Contact">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+  <script src="script.js"></script>
+  <script src="transitions.js"></script>
+</body>
+</html>
