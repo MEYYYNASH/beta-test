@@ -147,25 +147,25 @@ document.addEventListener('DOMContentLoaded', () => {
             pDesc1: "Web tools suite portal",
             pDesc2: "Cultural calendar designer",
             pDesc3: "Video platforms downloader",
-            modalTitlePackages: "Service Packages",
-            pkgPrices: ["$150", "$500", "$1,500", "$800", "$2,500", "$5,000+"],
+            modalTitlePackages: "Project Services & Scopes",
+            pkgScopes: ["Landing Page & UI", "Full Web / Telegram Bot", "Custom AI Automation", "Business Site & Branding", "Web App + Bot Suite", "Custom Enterprise System"],
             modalTitleStats: "Commit Analytics",
             modalTitleSocial: "Social Profiles",
             chartHeader: "Monthly Git Commits",
-            pkgTitle1: "Starter",
-            pkgVal1: "Landing Page Design",
-            pkgTitle2: "Growth",
-            pkgVal2: "Full Web / Telegram Bot App",
-            pkgTitle3: "Pro",
-            pkgVal3: "Custom AI Integrations",
-            pkgTitle4: "Business",
-            pkgVal4: "Business Website + Branding",
-            pkgTitle5: "Scale",
-            pkgVal5: "Full Business Platform",
-            pkgTitle6: "Enterprise",
-            pkgVal6: "Custom Enterprise Solution",
+            pkgTitle1: "Starter Project",
+            pkgVal1: "Single-Page Scope",
+            pkgTitle2: "Growth Project",
+            pkgVal2: "Web App & Bot Suite",
+            pkgTitle3: "Pro AI Suite",
+            pkgVal3: "AI Model & Automation",
+            pkgTitle4: "Corporate Web",
+            pkgVal4: "Corporate Brand Platform",
+            pkgTitle5: "Full Platform",
+            pkgVal5: "Full Business Architecture",
+            pkgTitle6: "Enterprise Suite",
+            pkgVal6: "Tailored Enterprise Solution",
             pkgPopular: "Popular",
-            btnQuote: "Get Quote",
+            btnQuote: "Start Project",
             optionGlow: "Glow Effect",
             legendLess: "Less",
             legendMore: "More",
@@ -209,25 +209,25 @@ document.addEventListener('DOMContentLoaded', () => {
             pDesc1: "ផតថលឧបករណ៍បណ្តាញ",
             pDesc2: "រចនាកាលវិភាគប្រពៃណីខ្មែរ",
             pDesc3: "ទាញយកវីដេអូបណ្តាញសង្គម",
-            modalTitlePackages: "កញ្ចប់សេវាកម្ម",
-            pkgPrices: ["600,000 ៛", "2,000,000 ៛", "6,000,000 ៛", "3,200,000 ៛", "10,000,000 ៛", "20,000,000 ៛+"],
+            modalTitlePackages: "សេវាកម្ម និងទំហំគម្រោង",
+            pkgScopes: ["រចនាទំព័រដើម & UI", "គេហទំព័រ & តេឡេក្រាមប៊ត", "ប្រព័ន្ធ AI ពិសេស", "គេហទំព័រអាជីវកម្ម & ម៉ាកយីហោ", "ប្រព័ន្ធគេហទំព័រ & ប៊ត", "ប្រព័ន្ធសហគ្រាសពិសេស"],
             modalTitleStats: "ស្ថិតិការចូលរួម",
             modalTitleSocial: "បណ្តាញសង្គម",
             chartHeader: "ការបញ្ជូនកូដប្រចាំខែ",
-            pkgTitle1: "កញ្ចប់ចាប់ផ្តើម",
-            pkgVal1: "រចនាទំព័រដើម (Landing Page)",
-            pkgTitle2: "កញ្ចប់លូតលាស់",
-            pkgVal2: "គេហទំព័រ ឬតេឡេក្រាមប៊តពេញលេញ",
-            pkgTitle3: "កញ្ចប់អាជីព",
-            pkgVal3: "ការបញ្ចូលមុខងារ AI ពិសេស",
-            pkgTitle4: "អាជីវកម្ម",
-            pkgVal4: "គេហទំព័រអាជីវកម្ម + ម៉ាកយីហោ",
-            pkgTitle5: "ពង្រីកតម្រូវការ",
-            pkgVal5: "ប្រព័ន្ធអាជីវកម្មពេញលេញ",
-            pkgTitle6: "សហគ្រាស",
+            pkgTitle1: "គម្រោងចាប់ផ្តើម",
+            pkgVal1: "ទំហំទំព័រទោល",
+            pkgTitle2: "គម្រោងលូតលាស់",
+            pkgVal2: "ប្រព័ន្ធគេហទំព័រ & ប៊ត",
+            pkgTitle3: "កញ្ចប់ AI អាជីព",
+            pkgVal3: "ម៉ូឌែល AI & អូតូម៉ាតកម្ម",
+            pkgTitle4: "គេហទំព័រក្រុមហ៊ុន",
+            pkgVal4: "ប្រព័ន្ធម៉ាកយីហោអាជីវកម្ម",
+            pkgTitle5: "ប្រព័ន្ធពេញលេញ",
+            pkgVal5: "រចនាសម្ព័ន្ធអាជីវកម្មពេញលេញ",
+            pkgTitle6: "កញ្ចប់សហគ្រាស",
             pkgVal6: "ដំណោះស្រាយសហគ្រាសពិសេស",
             pkgPopular: "ពេញនិយម",
-            btnQuote: "សួរតម្លៃ",
+            btnQuote: "ចាប់ផ្តើមគម្រោង",
             optionGlow: "ពន្លឺជុំវិញ",
             legendLess: "តិច",
             legendMore: "ច្រើន",
@@ -828,10 +828,12 @@ document.addEventListener('DOMContentLoaded', () => {
         setText('more-lbl-social', d.menuSocial);
         setText('more-lbl-analytics', d.menuStats);
 
-        // Prices
-        document.querySelectorAll('.package-price').forEach((el, i) => {
-            if (d.pkgPrices[i]) el.textContent = d.pkgPrices[i];
-        });
+        // Scopes
+        if (d.pkgScopes) {
+            d.pkgScopes.forEach((scope, i) => {
+                setText(`pkg-scope-${i + 1}`, scope);
+            });
+        }
 
         // Package details
         setText('txt-popular-badge', d.pkgPopular);
