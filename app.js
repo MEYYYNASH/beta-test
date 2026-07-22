@@ -421,6 +421,14 @@ document.addEventListener('DOMContentLoaded', () => {
         activeModal = null;
         document.body.classList.remove('modal-open');
         document.body.style.overflow = '';
+
+        if (isMobile) {
+            if (colSidebar.classList.contains('active-col')) {
+                setActiveTab('profile');
+            } else {
+                setActiveTab('workspace');
+            }
+        }
     }
 
     backdrop.addEventListener('click', () => closeAllModals());
@@ -481,10 +489,35 @@ document.addEventListener('DOMContentLoaded', () => {
     modals.forEach(addSwipeDismiss);
 
     // ─── Sidebar Menu Bindings ─────────────────────
-    document.getElementById('menu-photos').addEventListener('click',   () => openModal('modal-photos'));
-    document.getElementById('menu-credits').addEventListener('click',  () => openModal('modal-credits'));
-    document.getElementById('menu-stats').addEventListener('click',    () => openModal('modal-stats'));
-    document.getElementById('menu-settings').addEventListener('click', () => openModal('modal-settings'));
+    const btnMenuPhotos = document.getElementById('menu-photos');
+    const btnMenuCredits = document.getElementById('menu-credits');
+    const btnMenuStats = document.getElementById('menu-stats');
+    const btnMenuSettings = document.getElementById('menu-settings');
+
+    if (btnMenuPhotos) {
+        btnMenuPhotos.addEventListener('click', () => {
+            setActiveTab('projects');
+            openModal('modal-photos');
+        });
+    }
+    if (btnMenuCredits) {
+        btnMenuCredits.addEventListener('click', () => {
+            setActiveTab('packages');
+            openModal('modal-credits');
+        });
+    }
+    if (btnMenuStats) {
+        btnMenuStats.addEventListener('click', () => {
+            setActiveTab('more');
+            openModal('modal-stats');
+        });
+    }
+    if (btnMenuSettings) {
+        btnMenuSettings.addEventListener('click', () => {
+            setActiveTab('more');
+            openModal('modal-settings');
+        });
+    }
 
     // ─── Package Tab Switcher (Personal / Company) ──
     document.querySelectorAll('.pkg-tab').forEach(tab => {
