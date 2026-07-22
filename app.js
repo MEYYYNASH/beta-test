@@ -388,22 +388,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ─── Mobile Nav: More sheet toggle ─────────────
-    if (mobNavMore && moreSheet) {
+    // ─── Mobile Nav: More sheet / modal toggle ─────
+    if (mobNavMore) {
         mobNavMore.addEventListener('click', (e) => {
             e.stopPropagation();
-            moreSheet.classList.toggle('visible');
-            if (moreSheet.classList.contains('visible')) setActiveTab('more');
-        });
-        document.addEventListener('click', (e) => {
-            if (!moreSheet.contains(e.target) && !mobNavMore.contains(e.target)) {
-                moreSheet.classList.remove('visible');
-            }
+            setActiveTab('more');
+            openModal('modal-settings');
         });
     }
-    // More sheet items
+
+    // More sheet / modal extra items
     const mobMoreAnalytics = document.getElementById('mob-more-analytics');
     const mobMoreSocial = document.getElementById('mob-more-social');
+    const btnMoreAnalyticsModal = document.getElementById('btn-more-analytics-modal');
+
     if (mobMoreAnalytics) {
         mobMoreAnalytics.addEventListener('click', () => {
             if (moreSheet) moreSheet.classList.remove('visible');
@@ -414,6 +412,11 @@ document.addEventListener('DOMContentLoaded', () => {
         mobMoreSocial.addEventListener('click', () => {
             if (moreSheet) moreSheet.classList.remove('visible');
             openModal('modal-settings');
+        });
+    }
+    if (btnMoreAnalyticsModal) {
+        btnMoreAnalyticsModal.addEventListener('click', () => {
+            openModal('modal-stats');
         });
     }
 
@@ -433,7 +436,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function closeAllModals(animate = true) {
-        modals.forEach(m => m.classList.remove('active'));
+        modals.forEach(m => {
+            m.classList.remove('active');
+            m.style.transform = '';
+        });
         backdrop.classList.remove('active');
         activeModal = null;
         document.body.classList.remove('modal-open');
@@ -456,25 +462,37 @@ document.addEventListener('DOMContentLoaded', () => {
     // ─── Swipe-to-dismiss for bottom sheets ───────
     function addSwipeDismiss(modal) {
         let startY = 0, currentY = 0, dragging = false;
+        const content = modal.querySelector('.modal-content');
 
         modal.addEventListener('touchstart', e => {
+            // Only initiate swipe-dismiss if content is at top (scrollTop === 0)
+            if (content && content.scrollTop > 0) return;
             startY = e.touches[0].clientY;
+            currentY = startY;
             dragging = true;
-            modal.style.transition = 'none';
         }, { passive: true });
 
         modal.addEventListener('touchmove', e => {
             if (!dragging) return;
+            if (content && content.scrollTop > 0) {
+                dragging = false;
+                modal.style.transform = '';
+                return;
+            }
             currentY = e.touches[0].clientY;
-            const delta = Math.max(0, currentY - startY);
-            modal.style.transform = `translateY(${delta}px)`;
+            const delta = currentY - startY;
+            if (delta > 0 && isMobile) {
+                modal.style.transition = 'none';
+                modal.style.transform = `translateY(${delta}px)`;
+            }
         }, { passive: true });
 
         modal.addEventListener('touchend', () => {
+            if (!dragging) return;
             dragging = false;
             modal.style.transition = '';
             const delta = currentY - startY;
-            if (delta > 100) {
+            if (delta > 90 && isMobile) {
                 closeAllModals();
                 modal.style.transform = '';
             } else {

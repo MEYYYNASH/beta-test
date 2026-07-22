@@ -1190,9 +1190,24 @@ body.modal-open {
     /* Dashboard columns: only one visible at a time on mobile */
     .dashboard-layout { grid-template-columns: 1fr; gap: 14px; }
     .dashboard-column { display: none; }
-    .dashboard-column.active-col { display: flex; flex-direction: column; gap: 14px; }
+    .dashboard-column.active-col { 
+        display: flex; 
+        flex-direction: column; 
+        gap: 14px;
+        animation: mobColFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
     .sidebar-column { display: none !important; }
-    .sidebar-column.active-col { display: flex !important; flex-direction: column; gap: 14px; }
+    .sidebar-column.active-col { 
+        display: flex !important; 
+        flex-direction: column; 
+        gap: 14px;
+        animation: mobColFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes mobColFadeIn {
+        from { opacity: 0; transform: translateY(6px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
 
     /* Glass cards mobile sizing */
     .glass-card { border-radius: 22px; padding: 18px; }
