@@ -858,6 +858,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Social & Options
         setText('txt-option-glow', d.optionGlow);
         setText('txt-option-glow-more', d.optionGlow);
+        setText('lbl-q-contact', lang === 'en' ? 'Telegram / Contact Handle (optional)' : 'តេឡេក្រាម / ទំនាក់ទំនង (ជម្រើសបន្ថែម)');
     }
 
     function setText(id, val) {
