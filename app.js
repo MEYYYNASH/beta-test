@@ -974,19 +974,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // ─── Project Filter Tabs ───────────────────────
+    // ─── Project Filter Tabs (Default to 'live' first) ─
+    function filterProjects(filter) {
+        document.querySelectorAll('.proj-filter').forEach(b => {
+            b.classList.toggle('active', b.getAttribute('data-filter') === filter);
+        });
+        document.querySelectorAll('.project-showcase-item').forEach(item => {
+            const status = item.getAttribute('data-status');
+            const show = filter === 'all' || status === filter;
+            item.classList.toggle('hidden', !show);
+        });
+    }
+
     document.querySelectorAll('.proj-filter').forEach(btn => {
         btn.addEventListener('click', () => {
-            document.querySelectorAll('.proj-filter').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
             const filter = btn.getAttribute('data-filter');
-            document.querySelectorAll('.project-showcase-item').forEach(item => {
-                const status = item.getAttribute('data-status');
-                const show = filter === 'all' || status === filter;
-                item.classList.toggle('hidden', !show);
-            });
+            filterProjects(filter);
         });
     });
+
+    // Default filter to Live projects first
+    filterProjects('live');
 
     // ─── Skill Bar Animations ──────────────────────
     function animateSkillBars() {
