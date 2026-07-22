@@ -312,45 +312,52 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // ─── Touch-Optimized Navigation Event Binder ────
+    function bindNavClick(el, callback) {
+        if (!el) return;
+        let touched = false;
+        el.addEventListener('touchend', (e) => {
+            touched = true;
+            e.stopPropagation();
+            callback(e);
+            setTimeout(() => { touched = false; }, 400);
+        }, { passive: true });
+        el.addEventListener('click', (e) => {
+            if (touched) return;
+            e.stopPropagation();
+            callback(e);
+        });
+    }
+
     // ─── Desktop Nav Listeners ─────────────────────
-    if (deskNavWorkspace) {
-        deskNavWorkspace.addEventListener('click', () => {
-            closeAllModals();
-            if (isMobile) showMobileColumn('style');
-            else {
-                setActiveTab('workspace');
-                colWorkspace.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        });
-    }
-    if (deskNavProfile) {
-        deskNavProfile.addEventListener('click', () => {
-            closeAllModals();
-            if (isMobile) showMobileColumn('profile');
-            else {
-                setActiveTab('profile');
-                colSidebar.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        });
-    }
-    if (deskNavProjects) {
-        deskNavProjects.addEventListener('click', () => {
-            setActiveTab('projects');
-            openModal('modal-photos');
-        });
-    }
-    if (deskNavPackages) {
-        deskNavPackages.addEventListener('click', () => {
-            setActiveTab('packages');
-            openModal('modal-credits');
-        });
-    }
-    if (deskNavMore) {
-        deskNavMore.addEventListener('click', () => {
-            setActiveTab('more');
-            openModal('modal-settings');
-        });
-    }
+    bindNavClick(deskNavWorkspace, () => {
+        closeAllModals();
+        if (isMobile) showMobileColumn('style');
+        else {
+            setActiveTab('workspace');
+            colWorkspace.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    });
+    bindNavClick(deskNavProfile, () => {
+        closeAllModals();
+        if (isMobile) showMobileColumn('profile');
+        else {
+            setActiveTab('profile');
+            colSidebar.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    });
+    bindNavClick(deskNavProjects, () => {
+        setActiveTab('projects');
+        openModal('modal-photos');
+    });
+    bindNavClick(deskNavPackages, () => {
+        setActiveTab('packages');
+        openModal('modal-credits');
+    });
+    bindNavClick(deskNavMore, () => {
+        setActiveTab('more');
+        openModal('modal-more');
+    });
 
     // ─── Mobile Column Toggle ──────────────────────
     function showMobileColumn(id) {
@@ -369,64 +376,43 @@ document.addEventListener('DOMContentLoaded', () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    mobNavStyle.addEventListener('click',   () => showMobileColumn('style'));
-    mobNavProfile.addEventListener('click', () => showMobileColumn('profile'));
+    bindNavClick(mobNavStyle,   () => showMobileColumn('style'));
+    bindNavClick(mobNavProfile, () => showMobileColumn('profile'));
 
-    // ─── Mobile Nav: Projects tab ──────────────────
-    if (mobNavProjects) {
-        mobNavProjects.addEventListener('click', () => {
-            setActiveTab('projects');
-            openModal('modal-photos');
-        });
-    }
+    // ─── Mobile Nav Listeners ──────────────────────
+    bindNavClick(mobNavProjects, () => {
+        setActiveTab('projects');
+        openModal('modal-photos');
+    });
+    bindNavClick(mobNavPackages, () => {
+        setActiveTab('packages');
+        openModal('modal-credits');
+    });
+    bindNavClick(mobNavMore, () => {
+        setActiveTab('more');
+        openModal('modal-more');
+    });
 
-    // ─── Mobile Nav: Packages tab ──────────────────
-    if (mobNavPackages) {
-        mobNavPackages.addEventListener('click', () => {
-            setActiveTab('packages');
-            openModal('modal-credits');
-        });
-    }
-
-    // ─── Mobile Nav: More sheet / modal toggle ─────
-    if (mobNavMore) {
-        mobNavMore.addEventListener('click', (e) => {
-            e.stopPropagation();
-            setActiveTab('more');
-            openModal('modal-settings');
-        });
-    }
-
-    // More sheet / modal extra items
-    const mobMoreAnalytics = document.getElementById('mob-more-analytics');
-    const mobMoreSocial = document.getElementById('mob-more-social');
+    // More modal options
+    const moreItemSocial = document.getElementById('more-item-social');
+    const moreItemAnalytics = document.getElementById('more-item-analytics');
     const btnMoreAnalyticsModal = document.getElementById('btn-more-analytics-modal');
 
-    if (mobMoreAnalytics) {
-        mobMoreAnalytics.addEventListener('click', () => {
-            if (moreSheet) moreSheet.classList.remove('visible');
-            openModal('modal-stats');
-        });
-    }
-    if (mobMoreSocial) {
-        mobMoreSocial.addEventListener('click', () => {
-            if (moreSheet) moreSheet.classList.remove('visible');
-            openModal('modal-settings');
-        });
-    }
-    if (btnMoreAnalyticsModal) {
-        btnMoreAnalyticsModal.addEventListener('click', () => {
-            openModal('modal-stats');
-        });
-    }
+    bindNavClick(moreItemSocial, () => openModal('modal-settings'));
+    bindNavClick(moreItemAnalytics, () => openModal('modal-stats'));
+    bindNavClick(btnMoreAnalyticsModal, () => openModal('modal-stats'));
 
-    // ─── Modal Open / Close (With Body Scroll Lock) ──
+    // ─── Modal Open / Close (With Body Scroll Lock & Toggle) ──
     function openModal(id) {
-        if (activeModal === id) return;
-        closeAllModals(false);
-
         const modal = document.getElementById(id);
         if (!modal) return;
+
+        if (activeModal === id) {
+            closeAllModals();
+            return;
+        }
+
+        closeAllModals(false);
         modal.classList.add('active');
         backdrop.classList.add('active');
         activeModal = id;
@@ -743,21 +729,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ─── Glow Toggle ──────────────────────────────
     const glowToggle = document.getElementById('settings-glow');
-    if (glowToggle) {
-        glowToggle.addEventListener('change', e => {
-            const on = e.target.checked;
-            const glow = document.querySelector('.avatar-glow');
-            if (glow) glow.style.display = on ? '' : 'none';
-        });
+    const glowToggleMore = document.getElementById('settings-glow-more');
+    function setGlow(on) {
+        const glow = document.querySelector('.avatar-glow');
+        if (glow) glow.style.display = on ? '' : 'none';
+        if (glowToggle) glowToggle.checked = on;
+        if (glowToggleMore) glowToggleMore.checked = on;
     }
+    if (glowToggle) glowToggle.addEventListener('change', e => setGlow(e.target.checked));
+    if (glowToggleMore) glowToggleMore.addEventListener('change', e => setGlow(e.target.checked));
 
     // ─── Particles Toggle ─────────────────────────
     const particlesToggle = document.getElementById('settings-particles');
-    if (particlesToggle) {
-        particlesToggle.addEventListener('change', e => {
-            if (window.toggleParticles) window.toggleParticles(e.target.checked);
-        });
+    const particlesToggleMore = document.getElementById('settings-particles-more');
+    function setParticles(on) {
+        if (window.toggleParticles) window.toggleParticles(on);
+        if (particlesToggle) particlesToggle.checked = on;
+        if (particlesToggleMore) particlesToggleMore.checked = on;
     }
+    if (particlesToggle) particlesToggle.addEventListener('change', e => setParticles(e.target.checked));
+    if (particlesToggleMore) particlesToggleMore.addEventListener('change', e => setParticles(e.target.checked));
 
     // ─── Theme Switcher ────────────────────────────
     themeBtns.forEach(btn => {
@@ -833,6 +824,9 @@ document.addEventListener('DOMContentLoaded', () => {
         setText('modal-title-packages', d.modalTitlePackages);
         setText('modal-title-stats', d.modalTitleStats);
         setText('modal-title-social', d.modalTitleSocial);
+        setText('modal-title-more', d.modalTitleMore || (lang === 'en' ? 'More Options' : 'ជម្រើសបន្ថែម'));
+        setText('more-lbl-social', d.menuSocial);
+        setText('more-lbl-analytics', d.menuStats);
 
         // Prices
         document.querySelectorAll('.package-price').forEach((el, i) => {
@@ -859,8 +853,9 @@ document.addEventListener('DOMContentLoaded', () => {
         setText('lbl-active-streak', d.activeStreakLbl);
         setText('lbl-success-rate', d.successRateLbl);
 
-        // Social
+        // Social & Options
         setText('txt-option-glow', d.optionGlow);
+        setText('txt-option-glow-more', d.optionGlow);
     }
 
     function setText(id, val) {

@@ -835,6 +835,50 @@
         </div>
     </div>
 
+    <!-- More Options Modal -->
+    <div class="phone-modal" id="modal-more">
+        <div class="modal-header">
+            <h3 id="modal-title-more">More Options</h3>
+            <button class="modal-close" aria-label="Close">&times;</button>
+        </div>
+        <div class="modal-content">
+            <div class="settings-list">
+                <button type="button" class="social-profile-item" id="more-item-social" style="cursor:pointer;width:100%;text-align:left">
+                    <div class="social-icon-wrapper" style="background:rgba(99,102,241,0.12);color:#6366f1;">
+                        <svg class="social-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                    </div>
+                    <div class="social-details">
+                        <span class="social-channel" id="more-lbl-social">Social Profiles</span>
+                        <small class="social-handle" id="more-sub-social">Telegram, Messenger, Instagram, GitHub</small>
+                    </div>
+                    <svg class="arrow-right-sub" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+
+                <button type="button" class="social-profile-item" id="more-item-analytics" style="cursor:pointer;width:100%;text-align:left">
+                    <div class="social-icon-wrapper" style="background:rgba(16,185,129,0.12);color:#10b981;">
+                        <svg class="social-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                    </div>
+                    <div class="social-details">
+                        <span class="social-channel" id="more-lbl-analytics">Commit Analytics</span>
+                        <small class="social-handle" id="more-sub-analytics">Git contributions &amp; push history</small>
+                    </div>
+                    <svg class="arrow-right-sub" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+
+                <div class="settings-options-box" style="margin-top:10px">
+                    <label class="settings-option">
+                        <span id="txt-option-glow-more">Glow Effect</span>
+                        <input type="checkbox" id="settings-glow-more" checked>
+                    </label>
+                    <label class="settings-option">
+                        <span id="txt-option-particles-more">Particles</span>
+                        <input type="checkbox" id="settings-particles-more" checked>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Social Profiles Modal -->
     <div class="phone-modal" id="modal-settings">
         <div class="modal-header">
