@@ -316,6 +316,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function bindNavClick(el, callback) {
         if (!el) return;
         el.addEventListener('click', (e) => {
+            e.stopPropagation();
             callback(e);
         });
     }
@@ -337,18 +338,9 @@ document.addEventListener('DOMContentLoaded', () => {
             colSidebar.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     });
-    bindNavClick(deskNavProjects, () => {
-        setActiveTab('projects');
-        openModal('modal-photos');
-    });
-    bindNavClick(deskNavPackages, () => {
-        setActiveTab('packages');
-        openModal('modal-credits');
-    });
-    bindNavClick(deskNavMore, () => {
-        setActiveTab('more');
-        openModal('modal-more');
-    });
+    bindNavClick(deskNavProjects, () => openModal('modal-photos'));
+    bindNavClick(deskNavPackages, () => openModal('modal-credits'));
+    bindNavClick(deskNavMore,     () => openModal('modal-more'));
 
     // ─── Mobile Column Toggle ──────────────────────
     function showMobileColumn(id) {
@@ -363,26 +355,17 @@ document.addEventListener('DOMContentLoaded', () => {
             colSidebar.classList.add('active-col');
             setActiveTab('profile');
         }
-        closeAllModals();
+        closeAllModals(false);
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     bindNavClick(mobNavStyle,   () => showMobileColumn('style'));
     bindNavClick(mobNavProfile, () => showMobileColumn('profile'));
 
-    // ─── Mobile Nav Listeners ──────────────────────
-    bindNavClick(mobNavProjects, () => {
-        setActiveTab('projects');
-        openModal('modal-photos');
-    });
-    bindNavClick(mobNavPackages, () => {
-        setActiveTab('packages');
-        openModal('modal-credits');
-    });
-    bindNavClick(mobNavMore, () => {
-        setActiveTab('more');
-        openModal('modal-more');
-    });
+    // ─── Mobile Nav Listeners (Instant 1-Click Open) ─
+    bindNavClick(mobNavProjects, () => openModal('modal-photos'));
+    bindNavClick(mobNavPackages, () => openModal('modal-credits'));
+    bindNavClick(mobNavMore,     () => openModal('modal-more'));
 
     // More modal options
     const moreItemSocial = document.getElementById('more-item-social');
@@ -393,26 +376,37 @@ document.addEventListener('DOMContentLoaded', () => {
     bindNavClick(moreItemAnalytics, () => openModal('modal-stats'));
     bindNavClick(btnMoreAnalyticsModal, () => openModal('modal-stats'));
 
-    // ─── Modal Open / Close (With Body Scroll Lock & Toggle) ──
+    // ─── Modal Open / Close (With Body Scroll Lock & 1-Click Toggle) ──
     function openModal(id) {
         const modal = document.getElementById(id);
         if (!modal) return;
 
+        // Tapping open modal closes it (1-click toggle)
         if (activeModal === id) {
-            closeAllModals();
+            closeAllModals(true);
             return;
         }
 
-        closeAllModals(false);
+        // Close existing active modals without resetting tab
+        modals.forEach(m => {
+            m.classList.remove('active');
+            m.style.transform = '';
+        });
+
         modal.classList.add('active');
         backdrop.classList.add('active');
         activeModal = id;
+
+        // Auto-sync active tab indicator
+        if (id === 'modal-photos') setActiveTab('projects');
+        else if (id === 'modal-credits') setActiveTab('packages');
+        else if (id === 'modal-more' || id === 'modal-settings' || id === 'modal-stats') setActiveTab('more');
 
         // Prevent body scroll on mobile and desktop
         document.body.classList.add('modal-open');
     }
 
-    function closeAllModals(animate = true) {
+    function closeAllModals(resetTab = true) {
         modals.forEach(m => {
             m.classList.remove('active');
             m.style.transform = '';
@@ -422,7 +416,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.remove('modal-open');
         document.body.style.overflow = '';
 
-        if (isMobile) {
+        if (resetTab && isMobile) {
             if (colSidebar.classList.contains('active-col')) {
                 setActiveTab('profile');
             } else {
