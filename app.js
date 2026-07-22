@@ -370,11 +370,71 @@ document.addEventListener('DOMContentLoaded', () => {
     // More modal options
     const moreItemSocial = document.getElementById('more-item-social');
     const moreItemAnalytics = document.getElementById('more-item-analytics');
+    const moreItemPreviewer = document.getElementById('more-item-previewer');
     const btnMoreAnalyticsModal = document.getElementById('btn-more-analytics-modal');
 
     bindNavClick(moreItemSocial, () => openModal('modal-settings'));
     bindNavClick(moreItemAnalytics, () => openModal('modal-stats'));
     bindNavClick(btnMoreAnalyticsModal, () => openModal('modal-stats'));
+
+    // ─── Live Web App Previewer Controller ─────────
+    const previewerTitle = document.getElementById('previewer-title');
+    const previewerUrlText = document.getElementById('previewer-url-text');
+    const previewerIframe = document.getElementById('previewer-iframe');
+    const btnOpenExt = document.getElementById('btn-open-ext');
+    const previewerFrameWrap = document.getElementById('previewer-frame-wrap');
+    const btnModeDesktop = document.getElementById('btn-mode-desktop');
+    const btnModeMobile = document.getElementById('btn-mode-mobile');
+
+    function openLivePreview(url, title = 'Live Website Preview') {
+        if (previewerTitle) previewerTitle.textContent = title;
+        if (previewerUrlText) previewerUrlText.textContent = url;
+        if (btnOpenExt) btnOpenExt.href = url;
+        if (previewerIframe) previewerIframe.src = url;
+
+        // Reset to desktop view
+        if (previewerFrameWrap) previewerFrameWrap.classList.remove('mobile-mode');
+        if (btnModeDesktop) btnModeDesktop.classList.add('active');
+        if (btnModeMobile) btnModeMobile.classList.remove('active');
+
+        openModal('modal-previewer');
+    }
+
+    if (btnModeDesktop) {
+        btnModeDesktop.addEventListener('click', () => {
+            btnModeDesktop.classList.add('active');
+            if (btnModeMobile) btnModeMobile.classList.remove('active');
+            if (previewerFrameWrap) previewerFrameWrap.classList.remove('mobile-mode');
+        });
+    }
+
+    if (btnModeMobile) {
+        btnModeMobile.addEventListener('click', () => {
+            btnModeMobile.classList.add('active');
+            if (btnModeDesktop) btnModeDesktop.classList.remove('active');
+            if (previewerFrameWrap) previewerFrameWrap.classList.add('mobile-mode');
+        });
+    }
+
+    bindNavClick(moreItemPreviewer, () => {
+        openLivePreview('https://meyyynash.github.io/OFFICE-WIN/', 'Office-Win Hub');
+    });
+
+    // Wire live website cards to open in-site previewer
+    document.querySelectorAll('.project-showcase-item[data-status="live"]').forEach(item => {
+        const title = item.querySelector('.project-item-title')?.textContent || 'Live Preview';
+        const linkBtn = item.querySelector('.project-link-btn');
+        if (linkBtn) {
+            const url = linkBtn.getAttribute('href');
+            if (url && url.startsWith('http') && !url.includes('t.me') && !url.includes('github.com/bormey')) {
+                item.style.cursor = 'pointer';
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    openLivePreview(url, title);
+                });
+            }
+        }
+    });
 
     // ─── Modal Open / Close (With Body Scroll Lock & 1-Click Toggle) ──
     function openModal(id) {

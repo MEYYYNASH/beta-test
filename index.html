@@ -849,6 +849,17 @@
                     <svg class="arrow-right-sub" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
                 </button>
 
+                <button type="button" class="social-profile-item" id="more-item-previewer" style="cursor:pointer;width:100%;text-align:left">
+                    <div class="social-icon-wrapper" style="background:rgba(99,102,241,0.12);color:#6366f1;">
+                        <svg class="social-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                    </div>
+                    <div class="social-details">
+                        <span class="social-channel" id="more-lbl-previewer">Live Web Previewer</span>
+                        <small class="social-handle" id="more-sub-previewer">Test live web apps inside portfolio</small>
+                    </div>
+                    <svg class="arrow-right-sub" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+
                 <div class="settings-options-box" style="margin-top:10px">
                     <label class="settings-option">
                         <span id="txt-option-glow-more">Glow Effect</span>
@@ -979,6 +990,39 @@
             </svg>
             <span>Social Profiles</span>
         </button>
+    </div>
+
+    <!-- Live Web App Previewer Modal -->
+    <div class="phone-modal" id="modal-previewer" style="max-width: 900px;">
+        <div class="modal-header">
+            <div style="display:flex; align-items:center; gap:8px;">
+                <h3 id="previewer-title">Live Website Preview</h3>
+                <span class="project-scope-badge" id="previewer-badge" style="margin:0;">Live Demo</span>
+            </div>
+            <button class="modal-close" aria-label="Close">&times;</button>
+        </div>
+        <div class="modal-content" style="padding: 0 4px;">
+            <!-- Control bar -->
+            <div class="previewer-control-bar">
+                <div class="previewer-url-bar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+                    <span id="previewer-url-text">https://meyyynash.github.io/OFFICE-WIN/</span>
+                </div>
+                <div class="previewer-actions">
+                    <button class="previewer-mode-btn active" id="btn-mode-desktop" title="Desktop View">🖥️</button>
+                    <button class="previewer-mode-btn" id="btn-mode-mobile" title="Mobile View">📱</button>
+                    <a href="https://meyyynash.github.io/OFFICE-WIN/" target="_blank" class="previewer-ext-btn" id="btn-open-ext" title="Open External">
+                        <span>Open Site</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Frame Container -->
+            <div class="previewer-frame-wrap" id="previewer-frame-wrap">
+                <iframe id="previewer-iframe" src="about:blank" title="Live Preview"></iframe>
+            </div>
+        </div>
     </div>
 
     <!-- Backdrop -->
