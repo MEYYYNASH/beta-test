@@ -737,13 +737,18 @@ body.modal-open {
 
 .buy-pkg-btn {
     width: 100%; border: none;
-    background: var(--text-primary); color: var(--stat-card-bg);
-    padding: 12px; border-radius: 12px;
-    font-size: 12px; font-weight: 800; cursor: pointer;
+    background: var(--accent); color: #ffffff !important;
+    padding: 12px; border-radius: 14px;
+    font-size: 13px; font-weight: 800; cursor: pointer;
     transition: all var(--transition-fast); outline: none;
     min-height: 44px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
 }
-.buy-pkg-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.12); }
+.buy-pkg-btn:hover {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.22);
+}
 .buy-pkg-btn:active { transform: scale(0.97); }
 
 /* ==========================================
@@ -764,9 +769,11 @@ body.modal-open {
 }
 .pkg-tab:hover { color: var(--text-primary); background: var(--card-hover-bg); }
 .pkg-tab.active {
-    background: var(--text-primary); color: var(--stat-card-bg);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+    background: var(--accent); color: #ffffff !important;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.18);
 }
+.pkg-tab.active span { color: #ffffff !important; }
+.pkg-tab.active svg { stroke: #ffffff !important; }
 
 .pkg-panel { display: flex; flex-direction: column; gap: 11px; }
 .pkg-panel.hidden { display: none !important; }
