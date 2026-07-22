@@ -153,6 +153,13 @@ html {
     scrollbar-color: rgba(140, 140, 160, 0.3) transparent;
 }
 
+button, a, .nav-item, .desk-nav-btn, .menu-item, .more-item-card, .modal-close {
+    touch-action: manipulation !important;
+    -webkit-tap-highlight-color: transparent !important;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
 /* Custom Glassmorphic Scrollbars */
 ::-webkit-scrollbar {
     width: 6px;

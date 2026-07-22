@@ -312,19 +312,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // ─── Touch-Optimized Navigation Event Binder ────
+    // ─── Quick Click Navigation Event Binder ───────
     function bindNavClick(el, callback) {
         if (!el) return;
-        let touched = false;
-        el.addEventListener('touchend', (e) => {
-            touched = true;
-            e.stopPropagation();
-            callback(e);
-            setTimeout(() => { touched = false; }, 400);
-        }, { passive: true });
         el.addEventListener('click', (e) => {
-            if (touched) return;
-            e.stopPropagation();
             callback(e);
         });
     }
