@@ -832,11 +832,12 @@ body.modal-open {
 .quote-pkg-banner {
     display: flex; align-items: center; gap: 12px;
     background: var(--accent-light); border: 1px solid rgba(var(--accent-rgb, 99,102,241),0.2);
-    border-radius: 16px; padding: 12px 14px;
+    border-radius: 16px; padding: 14px 16px;
+    margin-bottom: 18px;
     flex-shrink: 0;
 }
 .quote-pkg-icon { font-size: 22px; flex-shrink: 0; }
-.quote-pkg-info { display: flex; flex-direction: column; gap: 1px; flex: 1; min-width: 0; }
+.quote-pkg-info { display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 0; }
 .quote-pkg-name  { font-size: 13px; font-weight: 800; color: var(--text-primary); }
 .quote-pkg-price { font-size: 18px; font-weight: 800; color: var(--accent); line-height: 1.2; }
 
@@ -1172,9 +1173,9 @@ body.modal-open {
 }
 
 /* ==========================================
-   MOBILE: Full bottom-sheet experience
+   MOBILE: Full bottom-sheet experience (up to 920px screens)
    ========================================== */
-@media (max-width: 600px) {
+@media (max-width: 920px) {
 
     body {
         align-items: flex-start;
