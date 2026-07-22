@@ -272,10 +272,84 @@ document.addEventListener('DOMContentLoaded', () => {
     function checkMobile() { isMobile = window.innerWidth <= 600; }
     window.addEventListener('resize', checkMobile);
 
+    // ─── Desktop Nav Items ─────────────────────────
+    const deskNavWorkspace = document.getElementById('desk-nav-workspace');
+    const deskNavProfile   = document.getElementById('desk-nav-profile');
+    const deskNavProjects  = document.getElementById('desk-nav-projects');
+    const deskNavPackages  = document.getElementById('desk-nav-packages');
+    const deskNavMore      = document.getElementById('desk-nav-more');
+    const allDeskNavBtns   = document.querySelectorAll('.desktop-nav .desk-nav-btn');
+
+    // ─── Utility: detect mobile ────────────────────
+    function checkMobile() { isMobile = window.innerWidth <= 600; }
+    window.addEventListener('resize', checkMobile);
+
     // ─── Clear all nav active states ───────────────
     function clearNavActive() {
         allNavItems.forEach(btn => btn.classList.remove('active-tab'));
+        allDeskNavBtns.forEach(btn => btn.classList.remove('active-tab'));
         if (moreSheet) moreSheet.classList.remove('visible');
+    }
+
+    // ─── Update Active Tab across Desktop & Mobile ──
+    function setActiveTab(tabName) {
+        clearNavActive();
+        if (tabName === 'workspace') {
+            if (mobNavStyle) mobNavStyle.classList.add('active-tab');
+            if (deskNavWorkspace) deskNavWorkspace.classList.add('active-tab');
+        } else if (tabName === 'profile') {
+            if (mobNavProfile) mobNavProfile.classList.add('active-tab');
+            if (deskNavProfile) deskNavProfile.classList.add('active-tab');
+        } else if (tabName === 'projects') {
+            if (mobNavProjects) mobNavProjects.classList.add('active-tab');
+            if (deskNavProjects) deskNavProjects.classList.add('active-tab');
+        } else if (tabName === 'packages') {
+            if (mobNavPackages) mobNavPackages.classList.add('active-tab');
+            if (deskNavPackages) deskNavPackages.classList.add('active-tab');
+        } else if (tabName === 'more') {
+            if (mobNavMore) mobNavMore.classList.add('active-tab');
+            if (deskNavMore) deskNavMore.classList.add('active-tab');
+        }
+    }
+
+    // ─── Desktop Nav Listeners ─────────────────────
+    if (deskNavWorkspace) {
+        deskNavWorkspace.addEventListener('click', () => {
+            closeAllModals();
+            if (isMobile) showMobileColumn('style');
+            else {
+                setActiveTab('workspace');
+                colWorkspace.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    }
+    if (deskNavProfile) {
+        deskNavProfile.addEventListener('click', () => {
+            closeAllModals();
+            if (isMobile) showMobileColumn('profile');
+            else {
+                setActiveTab('profile');
+                colSidebar.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    }
+    if (deskNavProjects) {
+        deskNavProjects.addEventListener('click', () => {
+            setActiveTab('projects');
+            openModal('modal-photos');
+        });
+    }
+    if (deskNavPackages) {
+        deskNavPackages.addEventListener('click', () => {
+            setActiveTab('packages');
+            openModal('modal-credits');
+        });
+    }
+    if (deskNavMore) {
+        deskNavMore.addEventListener('click', () => {
+            setActiveTab('more');
+            openModal('modal-settings');
+        });
     }
 
     // ─── Mobile Column Toggle ──────────────────────
@@ -286,10 +360,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (id === 'style') {
             colWorkspace.classList.add('active-col');
-            mobNavStyle.classList.add('active-tab');
+            setActiveTab('workspace');
         } else {
             colSidebar.classList.add('active-col');
-            mobNavProfile.classList.add('active-tab');
+            setActiveTab('profile');
         }
         closeAllModals();
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -301,8 +375,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ─── Mobile Nav: Projects tab ──────────────────
     if (mobNavProjects) {
         mobNavProjects.addEventListener('click', () => {
-            clearNavActive();
-            mobNavProjects.classList.add('active-tab');
+            setActiveTab('projects');
             openModal('modal-photos');
         });
     }
@@ -310,8 +383,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ─── Mobile Nav: Packages tab ──────────────────
     if (mobNavPackages) {
         mobNavPackages.addEventListener('click', () => {
-            clearNavActive();
-            mobNavPackages.classList.add('active-tab');
+            setActiveTab('packages');
             openModal('modal-credits');
         });
     }
@@ -321,8 +393,8 @@ document.addEventListener('DOMContentLoaded', () => {
         mobNavMore.addEventListener('click', (e) => {
             e.stopPropagation();
             moreSheet.classList.toggle('visible');
+            if (moreSheet.classList.contains('visible')) setActiveTab('more');
         });
-        // Close more sheet when clicking outside
         document.addEventListener('click', (e) => {
             if (!moreSheet.contains(e.target) && !mobNavMore.contains(e.target)) {
                 moreSheet.classList.remove('visible');
@@ -345,7 +417,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ─── Modal Open / Close ────────────────────────
+    // ─── Modal Open / Close (With Body Scroll Lock) ──
     function openModal(id) {
         if (activeModal === id) return;
         closeAllModals(false);
@@ -356,14 +428,15 @@ document.addEventListener('DOMContentLoaded', () => {
         backdrop.classList.add('active');
         activeModal = id;
 
-        // Prevent body scroll on mobile when sheet open
-        if (isMobile) document.body.style.overflow = 'hidden';
+        // Prevent body scroll on mobile and desktop
+        document.body.classList.add('modal-open');
     }
 
     function closeAllModals(animate = true) {
         modals.forEach(m => m.classList.remove('active'));
         backdrop.classList.remove('active');
         activeModal = null;
+        document.body.classList.remove('modal-open');
         document.body.style.overflow = '';
     }
 
@@ -866,6 +939,55 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { threshold: 0.5 });
         obs.observe(counters[0].closest('.about-stats-grid') || counters[0]);
     }
+
+    // ─── Code Editor Sidebar Files Switcher ────────
+    const codeFiles = document.querySelectorAll('.code-editor-sidebar .sidebar-file');
+    const codeTitle = document.querySelector('.code-editor-title');
+    const codeContainer = document.querySelector('.code-editor-content pre code');
+
+    const codeSnippets = {
+        'prompt_eng.py': `<span class="code-comment"># AI Prompt Engineer &amp; Creative Dev</span>
+<span class="code-keyword">import</span> openai, anthropic, gemini
+
+<span class="code-keyword">class</span> <span class="code-class">BormeyPromptEngine</span>:
+    <span class="code-keyword">def</span> <span class="code-func">__init__</span>(<span class="code-params">self</span>):
+        <span class="code-params">self</span>.system_prompt = <span class="code-string">"You are an expert AI Assistant"</span>
+        <span class="code-params">self</span>.temperature = <span class="code-number">0.7</span>
+
+    <span class="code-keyword">def</span> <span class="code-func">optimize</span>(<span class="code-params">self</span>, task):
+        <span class="code-keyword">return</span> <span class="code-string">f"Hyper-optimizing prompt for: {task}"</span>`,
+
+        'web_dev.js': `<span class="code-comment">// High-performance glassmorphic UI engine</span>
+<span class="code-keyword">const</span> <span class="code-class">Portfolio</span> = {
+    developer: <span class="code-string">"PENHPICH BORMEY"</span>,
+    skills: [<span class="code-string">"JavaScript"</span>, <span class="code-string">"CSS3"</span>, <span class="code-string">"Node.js"</span>],
+    <span class="code-func">init</span>() {
+        console.log(<span class="code-string">"Portfolio loaded with smooth transitions!"</span>);
+    }
+};
+Portfolio.init();`,
+
+        'creative.css': `<span class="code-comment">/* Modern Glassmorphic Design Token System */</span>
+<span class="code-class">.theme-cyberpunk</span> {
+    <span class="code-keyword">--accent</span>: <span class="code-string">#ff00ff</span>;
+    <span class="code-keyword">--neon-cyan</span>: <span class="code-string">#00ffff</span>;
+    <span class="code-keyword">--card-border</span>: <span class="code-number">2px</span> solid <span class="code-string">#ff00ff</span>;
+    <span class="code-keyword">box-shadow</span>: <span class="code-number">0 0 20px</span> rgba(<span class="code-number">255,0,255,0.2</span>);
+}`
+    };
+
+    codeFiles.forEach(file => {
+        file.style.cursor = 'pointer';
+        file.addEventListener('click', () => {
+            codeFiles.forEach(f => f.classList.remove('active'));
+            file.classList.add('active');
+            const fileName = file.textContent.trim();
+            if (codeTitle) codeTitle.textContent = `bormey-workspace // ${fileName}`;
+            if (codeContainer && codeSnippets[fileName]) {
+                codeContainer.innerHTML = codeSnippets[fileName];
+            }
+        });
+    });
 
     // ─── Init ─────────────────────────────────────
     showMobileColumn('style'); // default mobile view = Workspace

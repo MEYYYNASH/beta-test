@@ -149,6 +149,34 @@
    ========================================== */
 html {
     scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(140, 140, 160, 0.3) transparent;
+}
+
+/* Custom Glassmorphic Scrollbars */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(140, 140, 160, 0.3);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(140, 140, 160, 0.55);
+}
+.theme-dark-glass ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+}
+.theme-dark-glass ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+.theme-cyberpunk ::-webkit-scrollbar-thumb {
+    background: #ff00ff;
 }
 
 body {
@@ -162,6 +190,11 @@ body {
     justify-content: center;
     align-items: flex-start;
     transition: background var(--transition-slow), color var(--transition-slow);
+}
+
+body.modal-open {
+    overflow: hidden !important;
+    touch-action: none;
 }
 
 /* Background Blur Orbs */
@@ -217,6 +250,51 @@ body {
 .brand-logo { width: 24px; height: 24px; color: var(--text-primary); flex-shrink: 0; }
 .brand h1 { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; white-space: nowrap; }
 .brand h1 span { font-weight: 300; opacity: 0.7; }
+
+/* Desktop Top Navigation */
+.desktop-nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(0, 0, 0, 0.04);
+    padding: 4px 6px;
+    border-radius: 50px;
+}
+.theme-dark-glass .desktop-nav { background: rgba(255, 255, 255, 0.05); }
+.theme-cyberpunk .desktop-nav { background: transparent; border: 1px solid #00ffff; }
+
+.desk-nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 7px 15px;
+    font-size: 12px;
+    font-weight: 700;
+    border-radius: 50px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+}
+.desk-nav-btn:hover {
+    color: var(--text-primary);
+    background: var(--card-hover-bg);
+}
+.desk-nav-btn.active-tab {
+    background: var(--nav-active-bg);
+    color: var(--nav-active-text);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+.theme-cyberpunk .desk-nav-btn.active-tab {
+    background: #00ffff;
+    color: #000;
+}
+@media (max-width: 768px) {
+    .desktop-nav { display: none; }
+}
 
 .controls-group { display: flex; align-items: center; gap: 10px; }
 
@@ -420,15 +498,40 @@ body {
     background: var(--card-bg); border: var(--card-border);
     border-radius: 18px; padding: 14px 16px;
     display: flex; align-items: center; gap: 14px;
-    box-shadow: var(--card-shadow); transition: all var(--transition-fast);
+    box-shadow: var(--card-shadow); 
+    transition: transform var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+    animation: projStagger 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
-.project-showcase-item:hover { transform: translateX(3px); background: var(--card-hover-bg); }
+.project-showcase-item:nth-child(1) { animation-delay: 0.05s; }
+.project-showcase-item:nth-child(2) { animation-delay: 0.1s; }
+.project-showcase-item:nth-child(3) { animation-delay: 0.15s; }
+.project-showcase-item:nth-child(4) { animation-delay: 0.2s; }
+.project-showcase-item:nth-child(5) { animation-delay: 0.25s; }
+.project-showcase-item:nth-child(6) { animation-delay: 0.3s; }
+.project-showcase-item:nth-child(7) { animation-delay: 0.35s; }
+.project-showcase-item:nth-child(8) { animation-delay: 0.4s; }
+
+@keyframes projStagger {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.project-showcase-item:hover { 
+    transform: translateY(-3px) scale(1.01); 
+    background: var(--card-hover-bg); 
+    border-color: var(--accent);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
 .project-showcase-item:active { transform: scale(0.98); }
 
 .project-icon-placeholder {
     width: 42px; height: 42px; border-radius: 12px;
     display: flex; align-items: center; justify-content: center;
     font-weight: 800; font-size: 13px; flex-shrink: 0;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.project-showcase-item:hover .project-icon-placeholder {
+    transform: scale(1.12) rotate(-4deg);
 }
 .color-tool  { background: rgba(99,102,241,0.12);  color: #6366f1; }
 .color-cal   { background: rgba(16,185,129,0.12);   color: #10b981; }
