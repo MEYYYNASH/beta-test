@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
             pkgVal5: "Full Business Architecture",
             pkgTitle6: "Enterprise Suite",
             pkgVal6: "Tailored Enterprise Solution",
-            pkgPopular: "Popular",
+            pkgPopular: "RECOMMENDED",
             btnQuote: "Start Project",
             optionGlow: "Glow Effect",
             legendLess: "Less",
@@ -226,7 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
             pkgVal5: "រចនាសម្ព័ន្ធអាជីវកម្មពេញលេញ",
             pkgTitle6: "កញ្ចប់សហគ្រាស",
             pkgVal6: "ដំណោះស្រាយសហគ្រាសពិសេស",
-            pkgPopular: "ពេញនិយម",
+            pkgPopular: "ណែនាំខ្លាំង",
             btnQuote: "ចាប់ផ្តើមគម្រោង",
             optionGlow: "ពន្លឺជុំវិញ",
             legendLess: "តិច",
@@ -913,7 +913,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Package details
-        setText('txt-popular-badge', d.pkgPopular);
+        document.querySelectorAll('.pkg-popular').forEach(el => el.textContent = d.pkgPopular);
         
         // Translate all 6 package card titles and values safely
         for (let i = 1; i <= 6; i++) {
