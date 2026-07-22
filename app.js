@@ -539,7 +539,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ─── Projects — Under Development / Code Private ─
     const wipProjects = [
-        { id: 'ai-bot-link', name: 'AI Telegram Bot' },
         { id: 'portfolio-wip-link', name: 'Portfolio Website' },
         { id: 'sms-wip-link', name: 'Student Management System' },
         { id: 'photo-wip-link', name: 'Photography Portfolio' },
