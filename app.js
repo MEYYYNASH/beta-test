@@ -187,7 +187,8 @@ document.addEventListener('DOMContentLoaded', () => {
             ],
             tip1: "Bormey specializes in Telegram bots & web platform scripts.",
             tip2: "Tap My Projects to see all live work & projects.",
-            successQuote: "Request received! Contact me on Telegram @ShennCelest for faster scoping."
+            successQuote: "Request received! Contact me on Telegram @ShennCelest for faster scoping.",
+            watchProfile: "Get in Touch"
         },
         kh: {
             profileTitle: "ប្រវត្តិរូប",
@@ -249,7 +250,8 @@ document.addEventListener('DOMContentLoaded', () => {
             ],
             tip1: "💡 បរមី ជំនាញខាងបង្កើតតេឡេក្រាមប៊ត និងស្គ្រីបគេហទំព័រ។",
             tip2: "💡 ចុចលើ 'គម្រោងរបស់ខ្ញុំ' ដើម្បីមើលគម្រោងទាំងអស់។",
-            successQuote: "📨 បានទទួលសំណើ! ទំនាក់ទំនងតាម Telegram @ShennCelest ។"
+            successQuote: "📨 បានទទួលសំណើ! ទំនាក់ទំនងតាម Telegram @ShennCelest ។",
+            watchProfile: "ទំនាក់ទំនងខ្ញុំ"
         }
     };
 
@@ -441,7 +443,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (btnWatchProfile) {
         btnWatchProfile.addEventListener('click', () => {
-            openModal('modal-photos');
+            openModal('modal-quote');
         });
     }
 
@@ -898,6 +900,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setText('lbl-projects', d.projectsLbl);
         setText('lbl-users', d.usersLbl);
         setText('lbl-commits', d.commitsLbl);
+        setText('txt-watch-profile', d.watchProfile);
 
         // Menu
         setText('menu-txt-photos', d.menuPhotos);
