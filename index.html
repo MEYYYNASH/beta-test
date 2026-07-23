@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,300..700;1,300..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Sora:wght@100..800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=2.5">
+    <link rel="stylesheet" href="style.css?v=2.6">
 </head>
 <body class="theme-light-glass">
 
@@ -84,18 +84,10 @@
             <!-- ═══ LEFT / PROFILE COLUMN ═══ -->
             <aside class="dashboard-column sidebar-column" id="col-sidebar">
 
-                <!-- Profile Card -->
+                <!-- Profile Card (Pinterest Frosted Glass Design) -->
                 <div class="glass-card profile-info-card">
-                    <div class="profile-header-bar">
-                        <h2 class="column-title serif" id="txt-profile-title">Profile</h2>
-                        <button class="bulb-btn" id="bulb-btn" title="Toggle glow">
-                            <svg class="bulb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A5.5 5.5 0 0 0 7 8c0 1.3.5 2.6 1.5 3.5.8.8 1.3 1.5 1.5 2.5"/>
-                                <path d="M9 18h6M10 22h4"/>
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="profile-details-box">
+                    <!-- Top Action Header -->
+                    <div class="profile-card-top-bar">
                         <div class="avatar-ring">
                             <div class="avatar-glow"></div>
                             <img class="profile-avatar-img" src="assets/avatar.png" alt="Penhpich Bormey" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -103,31 +95,51 @@
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="40" height="40"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                             </div>
                         </div>
-                        <div class="user-meta">
-                            <div class="name-badge-wrapper">
-                                <h3 class="display-name serif">Penhpich Bormey</h3>
-                                <span class="premium-badge">
-                                    <svg class="crown-icon" viewBox="0 0 24 24" fill="currentColor">
-                                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                                    </svg>
-                                    <span id="txt-badge-status">Open to Work</span>
-                                </span>
-                            </div>
-                            <p class="display-username">@bormey.dev</p>
+                        <div class="profile-top-actions">
+                            <button class="icon-round-btn" id="btn-share-profile" title="Share Profile">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+                            </button>
                         </div>
-                        <div class="stats-row">
-                            <div class="stat-box">
-                                <span class="stat-val" id="stat-val-projects">18</span>
-                                <span class="stat-lbl" id="lbl-projects">Projects</span>
+                    </div>
+
+                    <!-- Profile Meta -->
+                    <div class="profile-card-body">
+                        <h2 class="profile-card-name">Penhpich Bormey</h2>
+                        <p class="profile-card-role" id="txt-card-role">AI Prompt Engineer &amp; Dev</p>
+                        
+                        <!-- Pill Tags -->
+                        <div class="profile-card-tags">
+                            <span class="card-pill-tag">AI Bots</span>
+                            <span class="card-pill-tag">Web Dev</span>
+                            <span class="card-pill-tag">UI Design</span>
+                        </div>
+
+                        <!-- Stats Row with vertical dividers -->
+                        <div class="profile-card-stats">
+                            <div class="card-stat-item">
+                                <span class="card-stat-val">★ 4.9</span>
+                                <span class="card-stat-lbl">Rating</span>
                             </div>
-                            <div class="stat-box">
-                                <span class="stat-val">2.5k</span>
-                                <span class="stat-lbl" id="lbl-users">Bot Users</span>
+                            <div class="card-stat-divider"></div>
+                            <div class="card-stat-item">
+                                <span class="card-stat-val">1.2K+</span>
+                                <span class="card-stat-lbl">Commits</span>
                             </div>
-                            <div class="stat-box">
-                                <span class="stat-val">420</span>
-                                <span class="stat-lbl" id="lbl-commits">Commits</span>
+                            <div class="card-stat-divider"></div>
+                            <div class="card-stat-item">
+                                <span class="card-stat-val">Open</span>
+                                <span class="card-stat-lbl">Status</span>
                             </div>
+                        </div>
+
+                        <!-- CTA Bar -->
+                        <div class="profile-card-cta-bar">
+                            <button class="watch-full-profile-btn" id="btn-watch-profile">
+                                <span id="txt-watch-profile">Watch Full Profile</span>
+                            </button>
+                            <button class="bookmark-icon-btn" id="btn-bookmark-profile" title="Save Profile">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                            </button>
                         </div>
                     </div>
 
@@ -1028,6 +1040,6 @@
     <!-- Backdrop -->
     <div class="modal-backdrop" id="modal-backdrop"></div>
 
-    <script src="app.js?v=2.5"></script>
+    <script src="app.js?v=2.6"></script>
 </body>
 </html>

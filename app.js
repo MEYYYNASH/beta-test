@@ -420,21 +420,41 @@ document.addEventListener('DOMContentLoaded', () => {
         openLivePreview('https://meyyynash.github.io/OFFICE-WIN/', 'Office-Win Hub');
     });
 
-    // Wire live website cards to open in-site previewer
-    document.querySelectorAll('.project-showcase-item[data-status="live"]').forEach(item => {
-        const title = item.querySelector('.project-item-title')?.textContent || 'Live Preview';
-        const linkBtn = item.querySelector('.project-link-btn');
-        if (linkBtn) {
-            const url = linkBtn.getAttribute('href');
-            if (url && url.startsWith('http') && !url.includes('t.me') && !url.includes('github.com/bormey')) {
-                item.style.cursor = 'pointer';
-                item.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    openLivePreview(url, title);
+    // ─── Profile Card Buttons ─────────────────────
+    const btnWatchProfile = document.getElementById('btn-watch-profile');
+    const btnShareProfile = document.getElementById('btn-share-profile');
+    const btnBookmarkProfile = document.getElementById('btn-bookmark-profile');
+
+    if (btnWatchProfile) {
+        btnWatchProfile.addEventListener('click', () => {
+            openModal('modal-photos');
+        });
+    }
+
+    if (btnShareProfile) {
+        btnShareProfile.addEventListener('click', () => {
+            const url = window.location.href;
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(url).then(() => {
+                    showToast('🔗 Profile link copied to clipboard!');
+                }).catch(() => {
+                    showToast('Profile URL: ' + url);
                 });
+            } else {
+                showToast('Profile URL: ' + url);
             }
-        }
-    });
+        });
+    }
+
+    if (btnBookmarkProfile) {
+        let saved = false;
+        btnBookmarkProfile.addEventListener('click', () => {
+            saved = !saved;
+            btnBookmarkProfile.style.color = saved ? '#6366f1' : 'var(--text-primary)';
+            btnBookmarkProfile.style.background = saved ? 'rgba(99, 102, 241, 0.15)' : '';
+            showToast(saved ? '🔖 Profile saved to your bookmarks!' : 'Removed from bookmarks');
+        });
+    }
 
     // ─── Modal Open / Close (With Body Scroll Lock & 1-Click Toggle) ──
     function openModal(id) {
