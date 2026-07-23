@@ -1036,18 +1036,8 @@ document.addEventListener('DOMContentLoaded', () => {
             bar.classList.add('animate');
         });
     }
-    // Use IntersectionObserver for smooth entry
-    const skillSection = document.querySelector('.skill-bars-section');
-    if (skillSection && 'IntersectionObserver' in window) {
-        const obs = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) { animateSkillBars(); obs.disconnect(); }
-            });
-        }, { threshold: 0.3 });
-        obs.observe(skillSection);
-    } else {
-        setTimeout(animateSkillBars, 500);
-    }
+    // Trigger immediately on page load to guarantee visibility
+    setTimeout(animateSkillBars, 200);
 
     // ─── Counter Animation ────────────────────────
     function animateCounter(el, target, duration = 1200) {
