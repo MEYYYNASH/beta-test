@@ -348,6 +348,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (id === 'style') {
             colWorkspace.classList.add('active-col');
             setActiveTab('workspace');
+            triggerCounterAnimation();
         } else {
             colSidebar.classList.add('active-col');
             setActiveTab('profile');
@@ -1061,17 +1062,17 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         requestAnimationFrame(step);
     }
-    const counters = document.querySelectorAll('.about-stat-num.counter');
-    if (counters.length && 'IntersectionObserver' in window) {
-        const obs = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    counters.forEach(c => animateCounter(c, parseInt(c.getAttribute('data-target'))));
-                    obs.disconnect();
-                }
-            });
-        }, { threshold: 0.5 });
-        obs.observe(counters[0].closest('.about-stats-grid') || counters[0]);
+
+    let countersAnimated = false;
+    function triggerCounterAnimation() {
+        if (countersAnimated) return;
+        const counters = document.querySelectorAll('.about-stat-num.counter');
+        if (!counters.length) return;
+        counters.forEach(c => {
+            const val = parseInt(c.getAttribute('data-target'));
+            if (!isNaN(val)) animateCounter(c, val);
+        });
+        countersAnimated = true;
     }
 
     // ─── Code Editor Sidebar Files Switcher ────────
@@ -1127,6 +1128,9 @@ Portfolio.init();`,
     showMobileColumn('profile'); // default mobile view = Profile Bio Card
     setLanguage('en');
     populateHeatmap();
+    if (!isMobile) {
+        triggerCounterAnimation();
+    }
 
     // Wire Full Analytics button
     const btnViewCommits = document.getElementById('btn-view-commits');
