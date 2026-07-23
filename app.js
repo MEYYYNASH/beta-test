@@ -268,8 +268,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const moreSheet     = document.getElementById('mobile-more-sheet');
     const allNavItems   = document.querySelectorAll('.mobile-bottom-nav .nav-item');
 
-    // ─── Utility: detect mobile ────────────────────
-    function checkMobile() { isMobile = window.innerWidth <= 600; }
+    // ─── Utility: detect mobile (matches 920px CSS breakpoint) ───
+    function checkMobile() { isMobile = window.innerWidth <= 920; }
+    checkMobile();
     window.addEventListener('resize', checkMobile);
 
     // ─── Desktop Nav Items ─────────────────────────
@@ -279,10 +280,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const deskNavPackages  = document.getElementById('desk-nav-packages');
     const deskNavMore      = document.getElementById('desk-nav-more');
     const allDeskNavBtns   = document.querySelectorAll('.desktop-nav .desk-nav-btn');
-
-    // ─── Utility: detect mobile ────────────────────
-    function checkMobile() { isMobile = window.innerWidth <= 600; }
-    window.addEventListener('resize', checkMobile);
 
     // ─── Clear all nav active states ───────────────
     function clearNavActive() {
@@ -418,6 +415,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     bindNavClick(moreItemPreviewer, () => {
         openLivePreview('https://meyyynash.github.io/OFFICE-WIN/', 'Office-Win Hub');
+    });
+
+    // Wire live website cards to open in-site previewer (supports both external and local directories)
+    document.querySelectorAll('.project-showcase-item[data-status="live"]').forEach(item => {
+        const title = item.querySelector('.project-item-title')?.textContent || 'Live Preview';
+        const linkBtn = item.querySelector('.project-link-btn');
+        if (linkBtn) {
+            const url = linkBtn.getAttribute('href');
+            if (url && !url.startsWith('#') && !url.includes('t.me') && !url.includes('github.com/bormey')) {
+                item.style.cursor = 'pointer';
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    openLivePreview(url, title);
+                });
+            }
+        }
     });
 
     // ─── Profile Card Buttons ─────────────────────
@@ -1111,7 +1124,7 @@ Portfolio.init();`,
     });
 
     // ─── Init ─────────────────────────────────────
-    showMobileColumn('style'); // default mobile view = Workspace
+    showMobileColumn('profile'); // default mobile view = Profile Bio Card
     setLanguage('en');
     populateHeatmap();
 

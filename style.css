@@ -1481,17 +1481,10 @@ body.modal-open {
     .lang-btn { padding: 5px 9px; font-size: 10px; }
     .theme-btn { width: 26px; height: 26px; font-size: 12px; }
 
-    /* Dashboard columns: only one visible at a time on mobile */
+    /* Dashboard columns: mobile single column view */
     .dashboard-layout { grid-template-columns: 1fr; gap: 14px; }
-    .dashboard-column { display: none; }
+    .dashboard-column { display: none !important; }
     .dashboard-column.active-col { 
-        display: flex; 
-        flex-direction: column; 
-        gap: 14px;
-        animation: mobColFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .sidebar-column { display: none !important; }
-    .sidebar-column.active-col { 
         display: flex !important; 
         flex-direction: column; 
         gap: 14px;
