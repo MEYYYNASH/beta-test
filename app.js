@@ -271,7 +271,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const allNavItems   = document.querySelectorAll('.mobile-bottom-nav .nav-item');
 
     // ─── Utility: detect mobile (matches 920px CSS breakpoint) ───
-    function checkMobile() { isMobile = window.innerWidth <= 920; }
+    let lastIsMobile = isMobile;
+    function checkMobile() {
+        isMobile = window.innerWidth <= 920;
+        if (isMobile !== lastIsMobile) {
+            lastIsMobile = isMobile;
+            if (isMobile) {
+                showMobileColumn('profile');
+            } else {
+                colSidebar.classList.remove('active-col');
+                colWorkspace.classList.remove('active-col');
+                setActiveTab('profile');
+            }
+        }
+    }
     checkMobile();
     window.addEventListener('resize', checkMobile);
 
@@ -1118,12 +1131,15 @@ Portfolio.init();`,
     });
 
     // ─── Init ─────────────────────────────────────
-    showMobileColumn('profile'); // default mobile view = Profile Bio Card
-    setLanguage('en');
-    populateHeatmap();
-    if (!isMobile) {
+    if (isMobile) {
+        showMobileColumn('profile'); // default mobile view = Profile Bio Card
+    } else {
+        colSidebar.classList.remove('active-col');
+        colWorkspace.classList.remove('active-col');
         triggerCounterAnimation();
     }
+    setLanguage('en');
+    populateHeatmap();
 
     // Wire Full Analytics button
     const btnViewCommits = document.getElementById('btn-view-commits');
